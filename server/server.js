@@ -39,5 +39,4 @@ const start = async () => {
   }
 };
 
-// Let's Rock! :)
 start();
