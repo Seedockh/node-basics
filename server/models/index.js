@@ -8,3 +8,6 @@ export const db = new Sequelize(process.env.DATABASE_URL);
 
 User.init(db);
 Project.init(db);
+
+User.hasMany(Project);
+Project.belongsTo(User);

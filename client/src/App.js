@@ -1,62 +1,80 @@
 import React, { Component } from "react";
-import {
-  BrowserRouter as Router,
-  Route,
-  Redirect,
-  Link
-} from "react-router-dom";
-import { Pane, Heading, Button } from "evergreen-ui";
+import { BrowserRouter as Router, Route, Redirect, Link } from "react-router-dom";
+import { withStyles } from '@material-ui/core/styles';
+import { AppBar, Toolbar, IconButton, Button } from "@material-ui/core";
+import MenuIcon from '@material-ui/icons/Menu';
 
 import Home from "./pages/Home";
 import Dashboard from "./pages/Dashboard";
 import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
 
-import logo from "./logo.svg";
 import "./App.css";
 
 localStorage.setItem("TEST", "HELLO");
 
+const styles = {
+  root: {
+    flexGrow: 1,
+  },
+  grow: {
+    flexGrow: 1,
+  },
+  menuButton: {
+    marginLeft: -12,
+    marginRight: 20,
+  },
+};
+
 class App extends Component {
   state = {
     user: null,
-    isConnected: false
+    isConnected: false,
   };
 
   handleUser = user => {
     this.setState({ user, isConnected: true });
   };
+  handleClickOpen = () => {
+    this.setState({ open: true });
+    return <Signin />
+  };
+
+  handleClose = () => {
+    this.setState({ open: false });
+  };
 
   render() {
-    const { user, isConnected } = this.state;
+    const { user, isConnected, nickname, password } = this.state;
 
     return (
       <Router>
         <>
-          <Pane display="flex" padding={16} background="tint2" borderRadius={3}>
-            <Pane flex={1} alignItems="center" display="flex">
-              <Link to="/" className="App-menu">
-                <Heading size={600}>Sanji server+react bootstrap</Heading>
-              </Link>
-            </Pane>
-            {!isConnected && (
-              <>
-                <Link to="/sign-in" className="App-menu">
-                  <Button marginRight={16}>Login</Button>
-                </Link>
-                <Link to="/sign-up" className="App-menu">
-                  <Button marginRight={16} appearance="primary">
-                    Sign up
-                  </Button>
-                </Link>
-              </>
-            )}
-            {isConnected && (
-              <Link to="/dashboard" className="App-menu">
-                <Button>Dashboard</Button>
-              </Link>
-            )}
-          </Pane>
+          <div className="App-menu">
+              <AppBar position="static">
+                <Toolbar>
+                  <IconButton className="menuButton" color="inherit" aria-label="Menu">
+                    <Link to="/" className="App-menu"><MenuIcon /></Link>
+                  </IconButton>
+                  <div className="barbuttons">
+                  {!isConnected && (
+                    <>
+                      <Button color="inherit" onClick={this.handleClickOpen}>Login</Button>
+
+                      <Link to="/sign-up" className="App-menu">
+                        <Button color="inherit">Register</Button>
+                      </Link>
+                    </>
+                  )}
+                  {isConnected && (
+                    <Link to="/dashboard" className="App-menu">
+                      <Button color="inherit">Dashboard</Button>
+                    </Link>
+                  )}
+                  </div>
+                </Toolbar>
+              </AppBar>
+          </div>
           <Route exact path="/" component={Home} />
           <Route
             path="/sign-in"
@@ -84,10 +102,11 @@ class App extends Component {
               component={() => <Dashboard nickname={user.nickname} />}
             />
           )}
+          <SignIn />
         </>
       </Router>
     );
   }
 }
 
-export default App;
+export default withStyles(styles)(App);

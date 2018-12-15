@@ -1,0 +1,9 @@
+localhost:4242/
+	|_____ api/
+	        |__auth/
+		|    |___register/
+		|    |___login/
+		|__users/
+		     |___(POST):uuid/
+		     |___(PUT):uuid/
+		     |___(DELETE):uuid/

@@ -1,3 +1,8 @@
 .App-menu {
   text-decoration: none;
+  color: inherit;
+}
+
+.barbuttons {
+  margin-left: auto;
 }

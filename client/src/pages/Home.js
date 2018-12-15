@@ -1,26 +1,20 @@
 import React from "react";
-import { Pane, Text } from "evergreen-ui";
+import { Grid, Paper, Typography } from "@material-ui/core";
+import "./Home.css";
 
 const Home = () => (
-  <Pane
-    elevation={1}
-    float="left"
-    backgroundColor="white"
-    width={420}
-    height={240}
-    margin={24}
-    display="flex"
-    justifyContent="center"
-    alignItems="center"
-    flexDirection="column"
-  >
-    <Text>
-      <strong>Home</strong>
-    </Text>
-    <Text size={300}>
-      <strong>Hello, world</strong>
-    </Text>
-  </Pane>
+  <div className="home">
+  <Paper className="paper" xs={6}>
+    <Grid container direction="column" spacing={16}>
+      <Grid item>
+        <Typography gutterBottom variant="h5">Home</Typography>
+      </Grid>
+      <Grid item>
+        <Typography gutterBottom variant="subtitle1">Hello, world</Typography>
+      </Grid>
+    </Grid>
+  </Paper>
+  </div>
 );
 
 export default Home;

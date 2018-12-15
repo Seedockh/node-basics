@@ -13,9 +13,9 @@ api.post("/register", async (req, res) => {
       nickname,
       email,
       password,
-      password_confirmation
+      password_confirmation,
     });
-
+    
     await user.save();
 
     const payload = { uuid: user.uuid, nickname, email };

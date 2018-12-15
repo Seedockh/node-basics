@@ -1,10 +1,18 @@
 import React, { Component } from "react";
-import { Pane, Text, TextInputField, Button } from "evergreen-ui";
+import { TextField, Button,
+         Dialog, DialogActions, DialogContent, DialogTitle } from "@material-ui/core";
 
 export default class SignIn extends Component {
   state = {
-    nickname: "majdi",
-    password: "majditoumi"
+    open: true,
+  };
+
+  handleClickOpen = () => {
+    this.setState({ open: true });
+  };
+
+  handleClose = () => {
+    this.setState({ open: false });
   };
 
   handleChange = evt => {
@@ -24,57 +32,50 @@ export default class SignIn extends Component {
     const json = await response.json();
     // I'M CONNECTED
     console.log(json);
-    this.props.connect(json.data.user);
+    this.state.connect(json.data.user);
   };
 
   render() {
-    const { nickname, email, password, password_confirmation } = this.state;
-
     return (
-      <Pane clearfix>
-        <Pane
-          elevation={1}
-          float="left"
-          backgroundColor="white"
-          width={420}
-          height={420}
-          margin={24}
-          padding={24}
+      <div>
+        <Dialog
+          open={this.state.open}
+          onClose={this.handleClose}
+          aria-labelledby="form-dialog-title"
         >
-          <Pane marginBottom={42}>
-            <Text>
-              <strong>Sign In</strong>
-            </Text>
-          </Pane>
-
-          <TextInputField
-            label="Nickname"
-            name="nickname"
-            value={nickname}
-            placeholder="Sanji"
-            onChange={this.handleChange}
-            required
-          />
-
-          <TextInputField
-            label="Password"
-            name="password"
-            value={password}
-            type="password"
-            onChange={this.handleChange}
-            required
-          />
-
-          <Button
-            marginRight={16}
-            appearance="primary"
-            intent="success"
-            onClick={this.login}
-          >
-            Login
-          </Button>
-        </Pane>
-      </Pane>
+          <DialogTitle id="form-dialog-title">Login</DialogTitle>
+          <DialogContent>
+            <TextField
+              margin="dense"
+              id="nickname"
+              label="Nickname"
+              name="nickname"
+              value={nickname}
+              type="text"
+              fullWidth
+              onChange={this.handleChange}
+            />
+            <TextField
+              margin="dense"
+              id="password"
+              label="Password"
+              name="password"
+              value={password}
+              type="password"
+              fullWidth
+              onChange={this.handleChange}
+            />
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={this.handleClose} color="primary">
+              Cancel
+            </Button>
+            <Button onClick={this.login} color="primary">
+              Login
+            </Button>
+          </DialogActions>
+        </Dialog>
+      </div>
     );
   }
 }

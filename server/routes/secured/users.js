@@ -13,26 +13,29 @@ api.post('/:uuid', async (req,res)=> {
   res.status(200).json({ data: {user} });
 })
 
-api.put('/:uuid', async (req,res,next)=> {
-  await User.update(
+api.put('/update/:uuid', async (req,res,next)=> {
+  const user = await User.update(
     { nickname: req.body.nickname,
-      email: req.body.nickname,
-      password: req.body.password }, {where : {uuid:req.params.uuid} } )
-  .then(() => res.status(200).json( { data: {user} }) )
-  .catch((err)=>{if (err) throw err});
+      email: req.body.email,
+      password: req.body.password }, {where : {uuid:req.params.uuid} } );
+  res.status(200).send('User updated successfully.');
 });
 
+api.delete('/delete/:uuid', async (req,res)=> {
+  const user = await User.destroy({where:{uuid: req.params.uuid}});
+  res.status(200).send("User deleted successfully.");
+})
 
 
 export default api;
 
 
 
-// 1. GERER LA PERSISTENCE DE DONNEES -
-// A. ENREGISTRER LE TOKEN HANDLE USER
-// B. RECUPERER QUAND REFRESH
-// C. REMOVE TOKEN ON LOGOUT
+// 1. GERER LA PERSISTENCE DE DONNEES -       ===> todo
+// A. ENREGISTRER LE TOKEN HANDLE USER     ===> todo
+// B. RECUPERER QUAND REFRESH              ===> todo
+// C. REMOVE TOKEN ON LOGOUT               ===>todo
 
-// 2. CREER PAGE PROFILE USER + EDIT + REMOVE
+// 2. CREER PAGE PROFILE USER + EDIT + REMOVE ===> OK
 
-// 3. CREER USER PROJECT(S) + EDIT + REMOVE
+// 3. CREER USER PROJECT(S) + EDIT + REMOVE   ===> OK

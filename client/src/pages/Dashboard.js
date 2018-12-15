@@ -1,26 +1,19 @@
 import React from "react";
-import { Pane, Text } from "evergreen-ui";
+import { Grid, Paper, Typography } from "@material-ui/core";
 
 const Dashboard = ({ nickname }) => (
-  <Pane
-    elevation={1}
-    float="left"
-    backgroundColor="white"
-    width={420}
-    height={240}
-    margin={24}
-    display="flex"
-    justifyContent="center"
-    alignItems="center"
-    flexDirection="column"
-  >
-    <Text>
-      <strong>Dashboard</strong>
-    </Text>
-    <Text size={300}>
-      <strong>Hello, {nickname}</strong>
-    </Text>
-  </Pane>
+  <div className="home">
+  <Paper className="paper" xs={6}>
+    <Grid container direction="column" spacing={16}>
+      <Grid item>
+        <Typography gutterBottom variant="h5">Dashboard</Typography>
+      </Grid>
+      <Grid item>
+        <Typography gutterBottom variant="subtitle1">Hello, {nickname}</Typography>
+      </Grid>
+    </Grid>
+  </Paper>
+  </div>
 );
 
 export default Dashboard;

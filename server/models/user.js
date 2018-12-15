@@ -3,6 +3,7 @@ import bcrypt from "bcrypt";
 
 export default class User extends Model {
   static init(database) {
+
     return super.init(
       {
         uuid: {
@@ -29,7 +30,7 @@ export default class User extends Model {
           type: Sequelize.STRING,
           allowNull: false,
           validate: {
-            isEmail: true
+            isEmail: { msg: "Email is not valid." }
           },
           unique: {
             args: true,
