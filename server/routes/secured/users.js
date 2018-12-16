@@ -31,10 +31,10 @@ export default api;
 
 
 
-// 1. GERER LA PERSISTENCE DE DONNEES -       ===> todo
-// A. ENREGISTRER LE TOKEN HANDLE USER     ===> todo
-// B. RECUPERER QUAND REFRESH              ===> todo
-// C. REMOVE TOKEN ON LOGOUT               ===>todo
+// 1. GERER LA PERSISTENCE DE DONNEES -       ===> OK
+// A. ENREGISTRER LE TOKEN HANDLE USER     ===> OK
+// B. RECUPERER QUAND REFRESH              ===> OK
+// C. REMOVE TOKEN ON LOGOUT               ===> OK
 
 // 2. CREER PAGE PROFILE USER + EDIT + REMOVE ===> OK
 

@@ -1,30 +1,33 @@
 import React, { Component } from "react";
 import { BrowserRouter as Router, Route, Link, Redirect } from "react-router-dom";
 import { AppBar, Toolbar, IconButton, Button } from "@material-ui/core";
-import MenuIcon from '@material-ui/icons/Menu';
+import { Home as HomeIcon } from '@material-ui/icons';
 
 import Home from "./pages/Home";
 import Dashboard from "./pages/Dashboard";
 import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
+import Snackbar from "./pages/Snackbar";
 
 import "./App.css";
 
 class App extends Component {
   state = {
-    user: localStorage.getItem('user')||null,
+    user: null,
     isConnected: localStorage.getItem('token') ? true : false,
     open_signin: false,
     open_signup: false,
+    open_snack_login: false,
+    open_snack_logout: false,
   };
 
   handleUser = user => {
-    this.setState({ user, isConnected: true });
+    this.setState({ user, isConnected: true, open_snack_login: true });
   };
 
   handleLogout = () => {
     localStorage.clear();
-    this.setState({ isConnected: false });
+    this.setState({ isConnected: false, open_snack_logout:true });
   }
 
   handleOpenSignIn = () => {
@@ -36,10 +39,12 @@ class App extends Component {
   handleClose = () => {
     this.setState({ open_signin: false, open_signup: false });
   }
+  handleCloseSnack = () => {
+    this.setState({ open_snack_login: false, open_snack_logout: false });
+  }
 
   render() {
-    const { isConnected, open_signin, open_signup } = this.state;
-    console.log("isConnected : "+isConnected);
+    const { isConnected, open_signin, open_signup, open_snack_login, open_snack_logout } = this.state;
     return (
       <Router>
         <>
@@ -47,7 +52,7 @@ class App extends Component {
               <AppBar position="static">
                 <Toolbar>
                   <IconButton className="menuButton" color="inherit" aria-label="Menu">
-                    <Link to="/" className="App-menu"><MenuIcon /></Link>
+                    <Link to="/" className="App-menu"><HomeIcon /></Link>
                   </IconButton>
                   <div className="barbuttons">
                   {!isConnected && (
@@ -72,8 +77,20 @@ class App extends Component {
           {isConnected && (
             <Route
               path="/dashboard"
-              component={() => <Dashboard nickname={localStorage.getItem("username")} isConnected={isConnected}/>}
+              component={() => <Dashboard isConnected={isConnected}/>}
             />
+          )}
+          {open_snack_login && (
+            <Snackbar variant="success"
+                      message="Successfully logged in !"
+                      open={open_snack_login}
+                      onClose={this.handleCloseSnack}/>
+          )}
+          {open_snack_logout && (
+            <Snackbar variant="warning"
+                      message="Logged out"
+                      open={open_snack_logout}
+                      onClose={this.handleCloseSnack}/>
           )}
           {!isConnected && (window.location.href!=="http://localhost:3000/") && (
             <Redirect to="/" />
