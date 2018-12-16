@@ -1,0 +1,30 @@
+.paperhome {
+  width: 80vw;
+  margin: 3em auto auto auto;
+}
+.home {
+  padding: 2em;
+  margin: 3em auto auto auto;
+}
+
+.title {
+  font-size: 25px;
+  margin-left: 10em;
+}
+
+.categories {
+  margin-top: 2em;
+}
+
+.panels {
+  display: flex;
+  justify-content: center;
+  width: 50%;
+}
+
+  .panelsgrid {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }

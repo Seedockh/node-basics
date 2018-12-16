@@ -4,7 +4,7 @@ import "./Home.css";
 
 const Home = () => (
   <div className="home">
-  <Paper className="paper" xs={6}>
+  <Paper className="paper">
     <Grid container direction="column" spacing={16}>
       <Grid item>
         <Typography gutterBottom variant="h5">Home</Typography>

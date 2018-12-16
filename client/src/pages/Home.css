@@ -1,11 +1,11 @@
 .home {
   display: flex;
   justify-content: center;
+  margin: 0;
 }
 
 .paper {
   width: 80vw;
   height: 200px;
-  margin-top: 3em;
   padding: 2em;
 }
