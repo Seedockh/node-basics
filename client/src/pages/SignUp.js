@@ -1,18 +1,23 @@
 import React, { Component } from "react";
-import { Pane, Text, TextInputField, Button } from "evergreen-ui";
+import { TextField, Button, Dialog,
+         DialogActions, DialogContent, DialogTitle } from "@material-ui/core";
 
 export default class SignUp extends Component {
   state = {
-    nickname: "majdi",
-    email: "majdi@mhirba.com",
-    password: "majditoumi",
-    password_confirmation: "majditoumi"
+    nickname: "",
+    email: "",
+    password: "",
+    password_confirmation: "",
+    msg: "",
   };
 
-  // this.handleChange = this.handleChange.bind(this);
   handleChange = evt => {
     const { name, value } = evt.target;
     this.setState({ [name]: value });
+  };
+
+  handleClose = () => {
+    this.props.close();
   };
 
   register = async () => {
@@ -25,75 +30,78 @@ export default class SignUp extends Component {
     });
 
     const json = await response.json();
-    // I'M CONNECTED
-    this.props.connect(json.data.user);
+    console.log(json);
+    if (json.error) {
+      return this.setState({msg: json.error});
+    } else {
+      this.handleClose();
+    }
   };
 
   render() {
-    const { nickname, email, password, password_confirmation } = this.state;
+    const { nickname, email, password, password_confirmation, msg } = this.state;
 
     return (
-      <Pane clearfix>
-        <Pane
-          elevation={1}
-          float="left"
-          backgroundColor="white"
-          width={420}
-          height={600}
-          margin={24}
-          padding={24}
-        >
-          <Pane marginBottom={42}>
-            <Text>
-              <strong>Sign Up</strong>
-            </Text>
-          </Pane>
-
-          <TextInputField
-            label="Nickname"
-            name="nickname"
-            value={nickname}
-            placeholder="Sanji"
-            onChange={this.handleChange}
-            required
-          />
-          <TextInputField
-            label="Email"
-            name="email"
-            value={email}
-            placeholder="sanji@op.co"
-            onChange={this.handleChange}
-            required
-          />
-
-          <TextInputField
-            label="Password"
-            name="password"
-            value={password}
-            type="password"
-            onChange={this.handleChange}
-            required
-          />
-
-          <TextInputField
-            label="Password confirmation"
-            name="password_confirmation"
-            value={password_confirmation}
-            type="password"
-            onChange={this.handleChange}
-            required
-          />
-
-          <Button
-            marginRight={16}
-            appearance="primary"
-            intent="success"
-            onClick={this.register}
-          >
-            Register
-          </Button>
-        </Pane>
-      </Pane>
+      <Dialog
+        open={this.props.open}
+        onClose={this.handleClose}
+        aria-labelledby="form-dialog-title"
+      >
+          <DialogTitle id="form-dialog-title">Register</DialogTitle>
+          <DialogContent>
+            <TextField
+              margin="dense"
+              id="nickname"
+              label="Nickname"
+              name="nickname"
+              value={nickname}
+              type="text"
+              fullWidth
+              onChange={this.handleChange}
+            />
+            <TextField
+              margin="dense"
+              id="email"
+              label="Email"
+              name="email"
+              value={email}
+              type="email"
+              fullWidth
+              onChange={this.handleChange}
+            />
+            <TextField
+              margin="dense"
+              id="password"
+              label="Password"
+              name="password"
+              value={password}
+              type="password"
+              fullWidth
+              onChange={this.handleChange}
+            />
+            <TextField
+              margin="dense"
+              id="password_confirmation"
+              label="Password confirmation"
+              name="password_confirmation"
+              value={password_confirmation}
+              type="password"
+              fullWidth
+              onChange={this.handleChange}
+            />
+            {(msg.length>0) && (
+              <pre className="logmessage">{msg}</pre>
+            )}
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={this.handleClose} color="primary">
+              Cancel
+            </Button>
+            <Button onClick={this.register} color="primary">
+              Register
+            </Button>
+          </DialogActions>
+        </Dialog>
     );
   }
 }

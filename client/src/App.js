@@ -1,6 +1,5 @@
 import React, { Component } from "react";
-import { BrowserRouter as Router, Route, Redirect, Link } from "react-router-dom";
-import { withStyles } from '@material-ui/core/styles';
+import { BrowserRouter as Router, Route, Link, Redirect } from "react-router-dom";
 import { AppBar, Toolbar, IconButton, Button } from "@material-ui/core";
 import MenuIcon from '@material-ui/icons/Menu';
 
@@ -11,42 +10,36 @@ import SignUp from "./pages/SignUp";
 
 import "./App.css";
 
-localStorage.setItem("TEST", "HELLO");
-
-const styles = {
-  root: {
-    flexGrow: 1,
-  },
-  grow: {
-    flexGrow: 1,
-  },
-  menuButton: {
-    marginLeft: -12,
-    marginRight: 20,
-  },
-};
-
 class App extends Component {
   state = {
-    user: null,
-    isConnected: false,
+    user: localStorage.getItem('user')||null,
+    isConnected: localStorage.getItem('token') ? true : false,
+    open_signin: false,
+    open_signup: false,
   };
 
   handleUser = user => {
     this.setState({ user, isConnected: true });
   };
-  handleClickOpen = () => {
-    this.setState({ open: true });
-    return <Signin />
-  };
 
+  handleLogout = () => {
+    localStorage.clear();
+    this.setState({ isConnected: false });
+  }
+
+  handleOpenSignIn = () => {
+    this.setState({ open_signin: true });
+  }
+  handleOpenSignUp = () => {
+    this.setState({ open_signup: true });
+  }
   handleClose = () => {
-    this.setState({ open: false });
-  };
+    this.setState({ open_signin: false, open_signup: false });
+  }
 
   render() {
-    const { user, isConnected, nickname, password } = this.state;
-
+    const { isConnected, open_signin, open_signup } = this.state;
+    console.log("isConnected : "+isConnected);
     return (
       <Router>
         <>
@@ -58,55 +51,43 @@ class App extends Component {
                   </IconButton>
                   <div className="barbuttons">
                   {!isConnected && (
-                    <>
-                      <Button color="inherit" onClick={this.handleClickOpen}>Login</Button>
-
-                      <Link to="/sign-up" className="App-menu">
-                        <Button color="inherit">Register</Button>
-                      </Link>
-                    </>
+                  <>
+                    <Button color="inherit" onClick={this.handleOpenSignIn}>Login</Button>
+                    <Button color="inherit" onClick={this.handleOpenSignUp}>Register</Button>
+                  </>
                   )}
                   {isConnected && (
+                  <>
                     <Link to="/dashboard" className="App-menu">
                       <Button color="inherit">Dashboard</Button>
                     </Link>
+                    <Button color="inherit" onClick={this.handleLogout}>Logout</Button>
+                  </>
                   )}
                   </div>
                 </Toolbar>
               </AppBar>
           </div>
           <Route exact path="/" component={Home} />
-          <Route
-            path="/sign-in"
-            component={() => {
-              return !isConnected ? (
-                <SignIn connect={this.handleUser} />
-              ) : (
-                <Redirect to="/dashboard" />
-              );
-            }}
-          />
-          <Route
-            path="/sign-up"
-            component={() => {
-              return !isConnected ? (
-                <SignUp connect={this.handleUser} />
-              ) : (
-                <Redirect to="/dashboard" />
-              );
-            }}
-          />
           {isConnected && (
             <Route
               path="/dashboard"
-              component={() => <Dashboard nickname={user.nickname} />}
+              component={() => <Dashboard nickname={localStorage.getItem("username")} isConnected={isConnected}/>}
             />
           )}
-          <SignIn />
+          {!isConnected && (window.location.href!=="http://localhost:3000/") && (
+            <Redirect to="/" />
+          )}
+          {open_signin && (
+            <SignIn connect={this.handleUser} open={open_signin} close={this.handleClose}/>
+          )}
+          {open_signup && (
+            <SignUp open={open_signup} close={this.handleClose}/>
+          )}
         </>
       </Router>
     );
   }
 }
 
-export default withStyles(styles)(App);
+export default App;

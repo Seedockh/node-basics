@@ -15,16 +15,15 @@ api.post("/register", async (req, res) => {
       password,
       password_confirmation,
     });
-    
+
     await user.save();
 
     const payload = { uuid: user.uuid, nickname, email };
     const token = jwt.sign(payload, "mysupersecret");
 
     res.status(201).json({ data: { user }, meta: { token } });
-  } catch (err) {
-    console.log(err.message);
-    res.json({ err: err.message });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
   }
 });
 
@@ -34,6 +33,8 @@ api.post("/login", async (req, res) => {
       res.status(400).json({
         error: { message: err }
       });
+      console.log("Error : "+res.status(400).statusCode +' - '+res.status(400).statusMessage);
+      return res.status(400);
     }
 
     const { uuid, nickname, email } = user;

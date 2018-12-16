@@ -1,18 +1,17 @@
 import React, { Component } from "react";
-import { TextField, Button,
-         Dialog, DialogActions, DialogContent, DialogTitle } from "@material-ui/core";
+import { TextField, Button, Dialog,
+         DialogActions, DialogContent, DialogTitle } from "@material-ui/core";
+import "./SignIn.css";
 
 export default class SignIn extends Component {
   state = {
-    open: true,
-  };
-
-  handleClickOpen = () => {
-    this.setState({ open: true });
+    nickname: '',
+    password: '',
+    msg: '',
   };
 
   handleClose = () => {
-    this.setState({ open: false });
+    this.props.close();
   };
 
   handleChange = evt => {
@@ -30,19 +29,26 @@ export default class SignIn extends Component {
     });
 
     const json = await response.json();
-    // I'M CONNECTED
-    console.log(json);
-    this.state.connect(json.data.user);
+    if (json.error) {
+      return this.setState({msg: json.error.message});
+    } else {
+      // I'M CONNECTED
+      console.log(json);
+      this.props.connect(json.data.user);
+      this.handleClose();
+      localStorage.setItem("token", json.meta.token);
+      localStorage.setItem("username", json.data.user.nickname);
+    }
   };
 
   render() {
+    const { nickname, password, msg } = this.state;
     return (
-      <div>
-        <Dialog
-          open={this.state.open}
-          onClose={this.handleClose}
-          aria-labelledby="form-dialog-title"
-        >
+      <Dialog
+        open={this.props.open}
+        onClose={this.handleClose}
+        aria-labelledby="form-dialog-title"
+      >
           <DialogTitle id="form-dialog-title">Login</DialogTitle>
           <DialogContent>
             <TextField
@@ -65,6 +71,9 @@ export default class SignIn extends Component {
               fullWidth
               onChange={this.handleChange}
             />
+            {(msg.length>0) && (
+              <pre className="logmessage">{msg}</pre>
+            )}
           </DialogContent>
           <DialogActions>
             <Button onClick={this.handleClose} color="primary">
@@ -75,7 +84,6 @@ export default class SignIn extends Component {
             </Button>
           </DialogActions>
         </Dialog>
-      </div>
     );
   }
 }
