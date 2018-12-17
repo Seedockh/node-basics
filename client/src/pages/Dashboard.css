@@ -1,25 +1,25 @@
-.paperhome {
-  width: 80vw;
-  margin: 3em auto auto auto;
-}
-.home {
-  padding: 2em;
-  margin: 3em auto auto auto;
-}
 
-.title {
-  font-size: 25px;
-  margin-left: 10em;
+.home {
+  padding: 4em;
+  margin: 7em auto auto auto;
+  width: 80vw;
 }
 
 .categories {
-  margin-top: 2em;
+  margin-top: 3em;
+}
+
+.title {
+  font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+    font-weight: 300;
+    line-height: 1.33;
+    letter-spacing: 0em;
 }
 
 .panels {
   display: flex;
   justify-content: center;
-  width: 50%;
+  width: 80%;
 }
 
   .panelsgrid {
@@ -28,3 +28,11 @@
     align-items: center;
     justify-content: center;
   }
+
+.categories:nth-child(1) {
+  color: #f50057;
+}
+.categories:nth-child(3) {
+  color: #00a152;
+  margin-top: 5em;
+}

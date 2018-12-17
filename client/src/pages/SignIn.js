@@ -10,7 +10,6 @@ export default class SignIn extends Component {
     password: '',
     msg: '',
     open_snack: true,
-    logged: false,
   };
 
   handleClose = () => {
@@ -45,11 +44,11 @@ export default class SignIn extends Component {
     } else {
       // I'M CONNECTED
       this.props.connect(json.data.user);
-      await this.setState({logged: true});
       this.handleClose();
       localStorage.setItem("token", json.meta.token);
       localStorage.setItem("username", json.data.user.nickname);
       localStorage.setItem("uuid",json.data.user.uuid);
+      localStorage.setItem("usermail",json.data.user.email);
     }
   };
 

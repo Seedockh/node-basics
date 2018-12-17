@@ -13,7 +13,7 @@ export default class User extends Model {
         },
         nickname: {
           type: Sequelize.STRING,
-          allowNull: false,
+          allowNull: true,
           unique: {
             args: true,
             msg: "Nickname already in use"
@@ -28,7 +28,7 @@ export default class User extends Model {
         },
         email: {
           type: Sequelize.STRING,
-          allowNull: false,
+          allowNull: true,
           validate: {
             isEmail: { msg: "Email is not valid." }
           },
@@ -39,7 +39,7 @@ export default class User extends Model {
         },
         password_digest: {
           type: Sequelize.STRING,
-          allowNull: false,
+          allowNull: true,
           validate: {
             notEmpty: true
           }

@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { TextField, Button, Dialog,
          DialogActions, DialogContent, DialogTitle } from "@material-ui/core";
+import Snackbar from './Snackbar';
 
 export default class SignUp extends Component {
   state = {
@@ -9,6 +10,7 @@ export default class SignUp extends Component {
     password: "",
     password_confirmation: "",
     msg: "",
+    open_snack: true,
   };
 
   handleChange = evt => {
@@ -19,8 +21,16 @@ export default class SignUp extends Component {
   handleClose = () => {
     this.props.close();
   };
+  handleCloseSnack = async () => {
+    await this.setState({open_snack: false });
+  }
 
   register = async () => {
+    const { nickname,email,password,password_confirmation } = this.state;
+    if (nickname==='' || password===''||email===''||password_confirmation==='') {
+      return this.setState({ open_snack:true, msg: "Each field is required."})
+    }
+
     const response = await fetch("http://localhost:4242/api/auth/register", {
       headers: {
         "Content-Type": "application/json"
@@ -30,16 +40,16 @@ export default class SignUp extends Component {
     });
 
     const json = await response.json();
-    console.log(json);
     if (json.error) {
-      return this.setState({msg: json.error});
+      return this.setState({ open_snack: true, msg: json.error});
     } else {
+      this.props.register(json.data.user);
       this.handleClose();
     }
   };
 
   render() {
-    const { nickname, email, password, password_confirmation, msg } = this.state;
+    const { nickname, email, password, password_confirmation, msg, open_snack } = this.state;
 
     return (
       <Dialog
@@ -90,7 +100,7 @@ export default class SignUp extends Component {
               onChange={this.handleChange}
             />
             {(msg.length>0) && (
-              <pre className="logmessage">{msg}</pre>
+              <Snackbar variant="error" message={msg} open={open_snack} onClose={this.handleCloseSnack}/>
             )}
           </DialogContent>
           <DialogActions>

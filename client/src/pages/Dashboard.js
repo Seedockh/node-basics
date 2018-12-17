@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Grid, Paper, Typography } from "@material-ui/core";
+import { Grid, Paper } from "@material-ui/core";
 import Panels from './Panels';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
@@ -20,25 +20,29 @@ class Dashboard extends Component {
   }
 
   render() {
-    const { nickname, isConnected } = this.state;
+    const { isConnected } = this.state;
     return (
-        <div className="home">
-          <Grid container direction="column" spacing={16}>
-            <Grid item>
-              <Typography className="title" gutterBottom variant="h4">Dashboard</Typography>
-              <Grid className="panelsgrid">
-                <div className={this.props.classes.root+" categories"}>User Panel</div>
-                <Grid item className="panels">
-                  <Panels />
-                </Grid>
-                <div className={this.props.classes.root+" categories"}>Projects Panel</div>
-                <Grid item className="panels">
-                  <Panels />
-                </Grid>
+      <>
+      {isConnected && (
+        <Paper className="home">
+        <Grid container direction="column" spacing={16}>
+          <Grid item>
+            <h2 className="title">Welcome to your dashboard, {localStorage.getItem('username')}</h2>
+            <Grid className="panelsgrid">
+              <div className={this.props.classes.root+" categories"}>User Panel</div>
+              <Grid item className="panels">
+                <Panels type="user"/>
+              </Grid>
+              <div className={this.props.classes.root+" categories"}>Projects Panel</div>
+              <Grid item className="panels">
+                <Panels type="projects"/>
               </Grid>
             </Grid>
           </Grid>
-        </div>
+        </Grid>
+        </Paper>
+      )}
+      </>
     )
   }
 }

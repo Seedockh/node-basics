@@ -1,0 +1,10 @@
+.editform {
+  width: 80%;
+  margin: auto;
+}
+
+.editbutton {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 2em;
+}
