@@ -46,7 +46,7 @@ class ControlledExpansionPanels extends React.Component {
               <Typography className={classes.secondaryHeading}>View and edit your user details</Typography>
             </ExpansionPanelSummary>
             <ExpansionPanelDetails>
-              <EditUser updatepassword={false}/>
+              <EditUser updatepassword={false} userupdate={this.props.userupdate}/>
             </ExpansionPanelDetails>
           </ExpansionPanel>
           <ExpansionPanel expanded={expanded === 'panel2'} onChange={this.handleChange('panel2')}>

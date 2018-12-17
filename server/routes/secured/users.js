@@ -14,19 +14,34 @@ api.post('/:uuid', async (req,res)=> {
 })
 
 api.put('/update/:uuid', async (req,res,next)=> {
-  const user = await User.update(
+  console.log(`
+    --------- UPDATING DETAILS ---------
+    `);
+  await User.update(
     { nickname: req.body.nickname,
       email: req.body.email,
-    }, {where : {uuid:req.params.uuid} } );
-  console.log(req.body);
-  res.status(200).send('User information updated successfully.');
+      password: "fake_password",
+      password_confirmation: "fake_password"
+    }, {where : {uuid:req.params.uuid},
+    returning: true, plain: true })
+    .then( response => {
+      console.log(response[1].dataValues);
+      res.status(200).json('User information updated successfully.') })
+    .catch( err => {
+      console.log(err.errors[0].message);
+      res.status(400).json({ error: err.errors[0].message })
+    });
 });
 
 api.put('/updatepassword/:uuid', async (req,res,next)=> {
+  console.log(`
+    --------- UPDATING PASSWORD ---------
+    `);
   const user = await User.update(
     { password: req.body.password,
       password_confirmation: req.body.password_confirmation
     }, {where : {uuid:req.params.uuid} } );
+  console.log(user[1].dataValues);
   res.status(200).send('Password updated successfully.');
 });
 

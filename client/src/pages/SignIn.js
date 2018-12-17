@@ -72,6 +72,7 @@ export default class SignIn extends Component {
               type="text"
               fullWidth
               onChange={this.handleChange}
+              spellCheck="false"
             />
             <TextField
               required
@@ -83,6 +84,7 @@ export default class SignIn extends Component {
               type="password"
               fullWidth
               onChange={this.handleChange}
+              spellCheck="false"
             />
             {(msg.length>0) && (
               <Snackbar variant="error" message={msg} open={open_snack} onClose={this.handleCloseSnack}/>

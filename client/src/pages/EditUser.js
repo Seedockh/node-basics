@@ -11,6 +11,7 @@ export default class SignUp extends Component {
     password: "",
     password_confirmation: "",
     msg: "",
+    variant: "error",
     open_snack: true,
   };
 
@@ -26,67 +27,61 @@ export default class SignUp extends Component {
   updatedetails = async () => {
     const { nickname, email } = this.state;
 
-      //console.log(this.state);
-      //console.log(validData); return;
-      const response = await fetch("http://localhost:4242/api/users/update/"+localStorage.getItem('uuid'), {
-        headers: {
-          "Authorization": 'Bearer '+localStorage.getItem('token'),
-          "Content-Type": "application/json"
-        },
-        method: "PUT",
-        body: JSON.stringify({nickname, email}),
+    const response = await fetch("http://localhost:4242/api/users/update/"+localStorage.getItem('uuid'), {
+      headers: {
+        "Authorization": 'Bearer '+localStorage.getItem('token'),
+        "Content-Type": "application/json"
+      },
+      method: "PUT",
+      body: JSON.stringify({nickname, email}),
+    });
+
+    const json = await response.json();
+      console.log(json);
+
+    if (json.error) {
+      return this.setState({
+        open_snack: true, variant:"error", msg: json.error,
+        nickname: localStorage.getItem('username'), email: localStorage.getItem('usermail')
       });
-      const json = await response.json();
-
-      if (json.error) {
-        return this.setState({ open_snack: true, msg: json.error});
-      } else {
-        return this.setState({ open_snack: true, msg: "Details updated successfully."});
-      }
-
+    } else {
+      localStorage.setItem('username',nickname); localStorage.setItem('usermail',email);
+      this.props.userupdate();
+      return this.setState({ open_snack: true, variant:"success", msg: "Details updated successfully."});
+    }
   }
 
   updatepassword = async () => {
     const { password, password_confirmation } = this.state;
 
-    if (password!=="" && password_confirmation!==password ) {
-      return this.setState({ open_snack: true, msg: "Password confirmation different than password."});
+    if (password!=="") {
+      if (password_confirmation!==password) {
+        return this.setState({ open_snack: true, msg: "Password confirmation different than password."});
+      } else {
+          const response = await fetch("http://localhost:4242/api/users/updatepassword/"+localStorage.getItem('uuid'), {
+            headers: {
+              "Authorization": 'Bearer '+localStorage.getItem('token'),
+              "Content-Type": "application/json"
+            },
+            method: "PUT",
+            body: JSON.stringify({password, password_confirmation}),
+          });
+
+          const json = await response;
+          if (json.error) {
+            return this.setState({ open_snack: true, variant:"error", msg: json.error});
+          } else {
+            return this.setState({ open_snack: true, variant:"success", msg: "Password updated successfully."});
+          }
+      }
     }
 
-    const validData = {};
-    Object.keys(this.state)
-      .filter(key => this.state[key]!==""
-          && typeof(this.state[key])!=="boolean")
-      .map( key => {
-        if(this.state[key]!==localStorage.getItem('username') && this.state[key]!==localStorage.getItem('usermail')) {
-          validData[key] = this.state[key];
-        } return key;
-      });
-      //console.log(this.state);
-      //console.log(validData); return;
-      const response = await fetch("http://localhost:4242/api/users/update/"+localStorage.getItem('uuid'), {
-        headers: {
-          "Authorization": 'Bearer '+localStorage.getItem('token'),
-          "Content-Type": "application/json"
-        },
-        method: "PUT",
-        body: JSON.stringify(validData),
-      });
-      const json = await response.json();
 
-      if (json.error) {
-        return this.setState({ open_snack: true, msg: json.error});
-      } else {
-        console.log("Json without error : ");
-        console.log(json.body);
-        this.props.register(json.data.user);
-        this.handleClose();
-      }
 
   }
 
   render() {
-    const { updatepassword, nickname, email, password, password_confirmation, msg, open_snack } = this.state;
+    const { updatepassword, nickname, email, password, password_confirmation, msg, open_snack, variant } = this.state;
 
     return (
       <>
@@ -95,26 +90,30 @@ export default class SignUp extends Component {
             <TextField
               margin="dense"
               id="nickname"
+              label="Nickname"
               name="nickname"
               value={nickname}
               type="text"
               fullWidth
               variant="outlined"
               onChange={this.handleChange}
+              spellCheck="false"
             />
             <TextField
               id="email"
               name="email"
+              label="Email"
               value={email}
               type="email"
               margin="dense"
               variant="outlined"
               fullWidth
               onChange={this.handleChange}
+              spellCheck="false"
             />
 
             {(msg.length>0) && (
-              <Snackbar variant="error" message={msg} open={open_snack} onClose={this.handleCloseSnack}/>
+              <Snackbar variant={variant} message={msg} open={open_snack} onClose={this.handleCloseSnack}/>
             )}
             <div className="editbutton">
               <Button className="editbutton" onClick={this.updatedetails} color="secondary">
@@ -126,6 +125,18 @@ export default class SignUp extends Component {
         {updatepassword && (
           <div className="editform">
             <TextField
+              required
+              id="old_password"
+              label="Old Password"
+              name="old_password"
+              type="password"
+              margin="dense"
+              variant="outlined"
+              fullWidth
+              onChange={this.handleChange}
+            />
+            <TextField
+              required
               id="password"
               label="New Password"
               name="password"
@@ -137,6 +148,7 @@ export default class SignUp extends Component {
               onChange={this.handleChange}
             />
             <TextField
+              required
               id="password_confirmation"
               label="New Password confirmation"
               name="password_confirmation"
@@ -148,7 +160,7 @@ export default class SignUp extends Component {
               onChange={this.handleChange}
             />
             {(msg.length>0) && (
-              <Snackbar variant="error" message={msg} open={open_snack} onClose={this.handleCloseSnack}/>
+              <Snackbar variant={variant} message={msg} open={open_snack} onClose={this.handleCloseSnack}/>
             )}
             <div className="editbutton">
               <Button onClick={this.updatepassword} color="secondary">

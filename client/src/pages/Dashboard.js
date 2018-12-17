@@ -16,22 +16,27 @@ const styles = theme => ({
 class Dashboard extends Component {
   state = {
     isConnected: this.props.isConnected,
-    nickname: localStorage.getItem("username"),
+    nickname: localStorage.getItem('username'),
+    email: localStorage.getItem('usermail'),
+  }
+
+  listenStorage = () => {
+    this.setState({ nickname: localStorage.getItem('username'), email: localStorage.getItem('usermail')});
   }
 
   render() {
-    const { isConnected } = this.state;
+    const { isConnected, nickname } = this.state;
     return (
       <>
       {isConnected && (
         <Paper className="home">
         <Grid container direction="column" spacing={16}>
           <Grid item>
-            <h2 className="title">Welcome to your dashboard, {localStorage.getItem('username')}</h2>
+            <h2 className="title">Welcome to your dashboard, {nickname}</h2>
             <Grid className="panelsgrid">
               <div className={this.props.classes.root+" categories"}>User Panel</div>
               <Grid item className="panels">
-                <Panels type="user"/>
+                <Panels type="user" userupdate={this.listenStorage}/>
               </Grid>
               <div className={this.props.classes.root+" categories"}>Projects Panel</div>
               <Grid item className="panels">

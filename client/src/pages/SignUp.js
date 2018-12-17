@@ -68,6 +68,7 @@ export default class SignUp extends Component {
               type="text"
               fullWidth
               onChange={this.handleChange}
+              spellCheck="false"
             />
             <TextField
               margin="dense"
@@ -78,6 +79,7 @@ export default class SignUp extends Component {
               type="email"
               fullWidth
               onChange={this.handleChange}
+              spellCheck="false"
             />
             <TextField
               margin="dense"
@@ -88,6 +90,7 @@ export default class SignUp extends Component {
               type="password"
               fullWidth
               onChange={this.handleChange}
+              spellCheck="false"
             />
             <TextField
               margin="dense"
@@ -98,6 +101,7 @@ export default class SignUp extends Component {
               type="password"
               fullWidth
               onChange={this.handleChange}
+              spellCheck="false"
             />
             {(msg.length>0) && (
               <Snackbar variant="error" message={msg} open={open_snack} onClose={this.handleCloseSnack}/>
