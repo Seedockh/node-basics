@@ -5,13 +5,17 @@ function ctrl_c() {
   kill $$
 }
 
-printf "%s\n" "$(tput clear)$(tput setaf 2)$(tput bold)" "  ******************************************" "  ***      ~ EXPRESS/REACT LAUNCHER ~    ***" "  ******************************************" "$(tput sgr 0)"
+printf "%s\n" "$(tput clear)$(tput setaf 2)$(tput bold)" "  ******************************************" "  ***      ~ EXPRESS/REACT LAUNCHER ~    ***" "  ******************************************$(tput sgr 0)"
+echo "$(tput setaf 2)$(tput bold)                      exit : CTRL+C or ⌘+C$(tput sgr 0)"
 
 #### ' PORT ALREADY IN USE ' HANDLER ####
+
 ## [MACOS/LINUX]
 #    fuser -k 4242/tcp
 #    fuser -k 3000/tcp
+
 ## [WINDOWS]
+: <<'END' #This is a block comment
 echo "$(tput setaf 2)--- killing processes at port 4242 ... $(tput sgr 0)"
 netstat -o -n -a | findstr 0.0:4242
 for token in `netstat -a -n -o | findstr 0.0:4242 | awk '{ print $5; }'`
@@ -29,6 +33,8 @@ for token in `netstat -a -n -o | findstr 0.0:3000 | awk '{ print $5; }'`
   done
 echo "$(tput setaf 3)    ~ If processes:3000 are correctly killed, this will return nothing : ~$(tput sgr 0)"
 netstat -o -n -a | findstr 0.0:3000
+END
+#### ' END HANDLER ' ####
 
 cd ./server
 HOSTAPP='Server'
