@@ -3,16 +3,16 @@ trap ctrl_c INT
 function ctrl_c() {
   kill -TERM $$
   kill $$
+  kill -TERM $$
 }
 
 printf "%s\n" "$(tput clear)$(tput setaf 2)$(tput bold)" "  ******************************************" "  ***      ~ EXPRESS/REACT LAUNCHER ~    ***" "  ******************************************$(tput sgr 0)"
-echo "$(tput setaf 2)$(tput bold)                      exit : CTRL+C or ⌘+C$(tput sgr 0)"
+echo "$(tput setaf 2)$(tput bold)                            exit : CTRL+C "
 
 #### ' PORT ALREADY IN USE ' HANDLER ####
 
 ## [MACOS/LINUX]
-#    fuser -k 4242/tcp
-#    fuser -k 3000/tcp
+lsof -c 'node' | awk 'NR!=1 { if (a[$2]++ == 0) print $2 }' | xargs kill
 
 ## [WINDOWS]
 : <<'END' #This is a block comment
@@ -41,23 +41,13 @@ HOSTAPP='Server'
 echo ""
 echo "$(tput setaf 2)Running $(tput setab 7)$(tput setaf 0)npm install$(tput setaf 2)$(tput setab 0) at "$HOSTAPP"...$(tput sgr 0)"
 npm install --loglevel=error
-PID=$BASHPID
-while [ -e $PID ]
-do
-  echo -e "$(tput setaf 2).$(tput sgr 0)\c"
-  sleep .6
-done
+wait $BASHPID
 printf "%s\n" "$(tput setaf 2)             => $(tput setaf 6)Complete$(tput sgr 0)" ""
 cd ../client
 HOSTAPP='Client'
 echo "$(tput setaf 2)Running $(tput setab 7)$(tput setaf 0)npm install$(tput setaf 2)$(tput setab 0) at "$HOSTAPP"...$(tput sgr 0)"
 npm install --loglevel=error
-PID=$BASHPID
-while [ -e $PID ]
-do
-    echo -e "$(tput setaf 2).$(tput sgr 0)"
-    sleep .6
-done
+wait $BASHPID
 printf "%s\n" "$(tput setaf 2)             => $(tput setaf 6)Complete$(tput sgr 0)"
 printf "%s\n" "" "$(tput setaf 6)  ------------------------------------$(tput sgr 0)" "$(tput setaf 6)  |    Launching Server and Client   |$(tput sgr 0)" "$(tput setaf 6)  ------------------------------------$(tput sgr 0)"
 cd ../server
