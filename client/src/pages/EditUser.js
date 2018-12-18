@@ -8,6 +8,7 @@ export default class SignUp extends Component {
     updatepassword: this.props.updatepassword,
     nickname: localStorage.getItem('username'),
     email: localStorage.getItem('usermail'),
+    old_password: "",
     password: "",
     password_confirmation: "",
     msg: "",
@@ -52,7 +53,7 @@ export default class SignUp extends Component {
   }
 
   updatepassword = async () => {
-    const { password, password_confirmation } = this.state;
+    const { old_password, password, password_confirmation } = this.state;
 
     if (password!=="") {
       if (password_confirmation!==password) {
@@ -64,10 +65,11 @@ export default class SignUp extends Component {
               "Content-Type": "application/json"
             },
             method: "PUT",
-            body: JSON.stringify({password, password_confirmation}),
+            body: JSON.stringify({old_password, password, password_confirmation}),
           });
 
           const json = await response;
+          console.log(json);
           if (json.error) {
             return this.setState({ open_snack: true, variant:"error", msg: json.error});
           } else {
@@ -75,13 +77,11 @@ export default class SignUp extends Component {
           }
       }
     }
-
-
-
   }
 
   render() {
-    const { updatepassword, nickname, email, password, password_confirmation, msg, open_snack, variant } = this.state;
+    const { updatepassword, nickname, email, old_password, password,
+            password_confirmation, msg, open_snack, variant } = this.state;
 
     return (
       <>
@@ -92,7 +92,7 @@ export default class SignUp extends Component {
               id="nickname"
               label="Nickname"
               name="nickname"
-              value={nickname}
+              value={nickname||''}
               type="text"
               fullWidth
               variant="outlined"
@@ -103,7 +103,7 @@ export default class SignUp extends Component {
               id="email"
               name="email"
               label="Email"
-              value={email}
+              value={email||''}
               type="email"
               margin="dense"
               variant="outlined"
@@ -130,6 +130,7 @@ export default class SignUp extends Component {
               label="Old Password"
               name="old_password"
               type="password"
+              value={old_password}
               margin="dense"
               variant="outlined"
               fullWidth

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { BrowserRouter as Router, Route, Link, Redirect } from "react-router-dom";
+import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import { AppBar, Toolbar, IconButton, Button } from "@material-ui/core";
 import { Home as HomeIcon } from '@material-ui/icons';
 
@@ -81,10 +81,10 @@ class App extends Component {
           </div>
           <Route exact path="/" component={Home} />
           {isConnected && (
-            <Route
-              path="/dashboard"
-              component={() => <Dashboard isConnected={isConnected}/>}
-            />
+              <Route
+                path="/dashboard"
+                component={() => <Dashboard isConnected={isConnected}/>}
+              />
           )}
           {open_snack_login && (
             <Snackbar variant="success"
@@ -103,9 +103,6 @@ class App extends Component {
                       message="User successfully created."
                       open={open_snack_register}
                       onClose={this.handleCloseSnack}/>
-          )}
-          {!isConnected && (window.location.href!=="http://localhost:3000/") && (
-            <Redirect to="/" />
           )}
           {open_signin && (
             <SignIn connect={this.handleLogin} open={open_signin} close={this.handleClose}/>

@@ -24,6 +24,7 @@ const styles = theme => ({
 class ControlledExpansionPanels extends React.Component {
   state = {
     expanded: null,
+    open: false,
   };
 
   handleChange = panel => (event, expanded) => {
@@ -31,6 +32,14 @@ class ControlledExpansionPanels extends React.Component {
       expanded: expanded ? panel : false,
     });
   };
+
+  handleClickOpen = () => {
+   this.setState({ open: true });
+  };
+
+  deleteUser = () => {
+
+  }
 
   render() {
     const { classes, type } = this.props;
@@ -46,7 +55,7 @@ class ControlledExpansionPanels extends React.Component {
               <Typography className={classes.secondaryHeading}>View and edit your user details</Typography>
             </ExpansionPanelSummary>
             <ExpansionPanelDetails>
-              <EditUser updatepassword={false} userupdate={this.props.userupdate}/>
+                <EditUser updatepassword={false} userupdate={this.props.userupdate}/>
             </ExpansionPanelDetails>
           </ExpansionPanel>
           <ExpansionPanel expanded={expanded === 'panel2'} onChange={this.handleChange('panel2')}>
@@ -55,7 +64,7 @@ class ControlledExpansionPanels extends React.Component {
               <Typography className={classes.secondaryHeading}>Change your password</Typography>
             </ExpansionPanelSummary>
             <ExpansionPanelDetails>
-              <EditUser updatepassword={true}/>
+                <EditUser updatepassword={true}/>
             </ExpansionPanelDetails>
           </ExpansionPanel>
           <ExpansionPanel expanded={expanded === 'panel3'} onChange={this.handleChange('panel3')}>
@@ -69,7 +78,7 @@ class ControlledExpansionPanels extends React.Component {
               <div className="alignright">
                 <Button variant="contained" color="secondary" className={classes.button}>
                   Delete my account
-                  <Delete className={classes.rightIcon} />
+                  <Delete onClick={this.handleClickOpen} className={classes.rightIcon} />
                 </Button>
               </div>
             </ExpansionPanelDetails>

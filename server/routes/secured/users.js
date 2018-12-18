@@ -10,14 +10,14 @@ api.get("/", async (req, res) => {
 
 api.post('/:uuid', async (req,res)=> {
   const user = await User.findByPk(req.params.uuid);
-  res.status(200).json({ data: {user} });
+  res.status(200).json(user);
 })
 
-api.put('/update/:uuid', async (req,res,next)=> {
+api.put('/update/:uuid', (req,res,next)=> {
   console.log(`
     --------- UPDATING DETAILS ---------
     `);
-  await User.update(
+  User.update(
     { nickname: req.body.nickname,
       email: req.body.email,
       password: "fake_password",
@@ -37,12 +37,20 @@ api.put('/updatepassword/:uuid', async (req,res,next)=> {
   console.log(`
     --------- UPDATING PASSWORD ---------
     `);
-  const user = await User.update(
-    { password: req.body.password,
-      password_confirmation: req.body.password_confirmation
-    }, {where : {uuid:req.params.uuid} } );
-  console.log(user[1].dataValues);
-  res.status(200).send('Password updated successfully.');
+    const old_user = await User.findByPk(req.params.uuid);
+
+    if ((await old_user.checkPassword(req.body.old_password))) {
+      console.log("OLD PASSWORD RECOGNIZED"); return;
+      /*const user = await User.update(
+        { password: req.body.password,
+          password_confirmation: req.body.password_confirmation
+        }, {where : {uuid:req.params.uuid} } );
+      console.log(user[1].dataValues);
+      res.status(200).send('Password updated successfully.');*/
+    } else {
+      console.log("OLD PASSWORD WRONG");
+      res.status(400).json({ error: "Old password is incorrect." })
+    }
 });
 
 api.delete('/delete/:uuid', async (req,res)=> {

@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Grid, Paper } from "@material-ui/core";
 import Panels from './Panels';
 import PropTypes from 'prop-types';
+import { Redirect } from 'react-router-dom';
 import { withStyles } from '@material-ui/core/styles';
 import './Dashboard.css';
 
@@ -22,16 +23,20 @@ class Dashboard extends Component {
 
   listenStorage = () => {
     this.setState({ nickname: localStorage.getItem('username'), email: localStorage.getItem('usermail')});
+    /*&& (window.location.href!=="http://localhost:3000/")*/
   }
 
   render() {
     const { isConnected, nickname } = this.state;
     return (
       <>
+      {!isConnected && (
+        <Redirect to="/" />
+      )}
       {isConnected && (
         <Paper className="home">
         <Grid container direction="column" spacing={16}>
-          <Grid item>
+          <Grid item className="dashboard">
             <h2 className="title">Welcome to your dashboard, {nickname}</h2>
             <Grid className="panelsgrid">
               <div className={this.props.classes.root+" categories"}>User Panel</div>

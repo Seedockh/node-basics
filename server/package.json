@@ -1,8 +1,8 @@
 {
-  "name": "sanji",
+  "name": "seedockh",
   "version": "1.0.0",
   "description": "Let's talk about express API server",
-  "author": "Majdi Tumi <majdi@mhirba.com>",
+  "author": "Pierre Herisse <pierre.herisse@gmail.com>",
   "license": "ISC",
   "keywords": [
     "server",
