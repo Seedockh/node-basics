@@ -28,4 +28,4 @@ END
 To start the whole project, simply type in your root directory :
 `$ ./start.sh`
 
-Or double-click on `start.sh file.`
+Or double-click on `start.sh` file.
