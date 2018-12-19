@@ -26,6 +26,11 @@ class Dashboard extends Component {
     /*&& (window.location.href!=="http://localhost:3000/")*/
   }
 
+  changePassword = () => {
+    this.setState({ isConnected: false });
+    this.props.changePassword();
+  }
+
   render() {
     const { isConnected, nickname } = this.state;
     return (
@@ -41,7 +46,7 @@ class Dashboard extends Component {
             <Grid className="panelsgrid">
               <div className={this.props.classes.root+" categories"}>User Panel</div>
               <Grid item className="panels">
-                <Panels type="user" userupdate={this.listenStorage}/>
+                <Panels type="user" userupdate={this.listenStorage} changePassword={this.changePassword}/>
               </Grid>
               <div className={this.props.classes.root+" categories"}>Projects Panel</div>
               <Grid item className="panels">

@@ -64,7 +64,7 @@ class ControlledExpansionPanels extends React.Component {
               <Typography className={classes.secondaryHeading}>Change your password</Typography>
             </ExpansionPanelSummary>
             <ExpansionPanelDetails>
-                <EditUser updatepassword={true}/>
+                <EditUser updatepassword={true} changePassword={this.props.changePassword}/>
             </ExpansionPanelDetails>
           </ExpansionPanel>
           <ExpansionPanel expanded={expanded === 'panel3'} onChange={this.handleChange('panel3')}>

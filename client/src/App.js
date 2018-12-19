@@ -81,7 +81,7 @@ class App extends Component {
           </div>
           <Switch>
             <Route exact path="/" component={Home} />
-            <Route path="/dashboard" component={() => <Dashboard isConnected={isConnected}/>} />
+            <Route path="/dashboard" component={() => <Dashboard isConnected={isConnected}  changePassword={this.handleLogout}/>} />
           </Switch>
             {open_snack_login && (
               <Snackbar variant="success"

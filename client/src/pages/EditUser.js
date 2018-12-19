@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { TextField, Button } from "@material-ui/core";
 import Snackbar from '../components/Snackbar';
-import { Redirect } from 'react-router-dom';
 import './EditUser.css';
 
 export default class SignUp extends Component {
@@ -73,7 +72,7 @@ export default class SignUp extends Component {
           } else {
             localStorage.clear();
             this.setState({ open_snack: true, variant:"success", msg: "Password updated successfully."});
-            return <Redirect to="/" />
+            this.props.changePassword();
           }
       }
     }
