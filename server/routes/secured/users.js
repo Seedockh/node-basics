@@ -25,11 +25,9 @@ api.put('/update/:uuid', (req,res,next)=> {
     }, {where : {uuid:req.params.uuid},
     returning: true, plain: true })
     .then( response => {
-      console.log(response[1].dataValues);
-      res.status(200).json('User information updated successfully.') })
+      res.status(200).json({msg:'User information updated successfully.'}) })
     .catch( err => {
-      console.log(err.errors[0].message);
-      res.status(400).json({ error: err.errors[0].message })
+      res.status(400).json({ error: err.original.detail })
     });
 });
 
@@ -40,22 +38,25 @@ api.put('/updatepassword/:uuid', async (req,res,next)=> {
     const old_user = await User.findByPk(req.params.uuid);
 
     if ((await old_user.checkPassword(req.body.old_password))) {
-      console.log("OLD PASSWORD RECOGNIZED"); return;
-      /*const user = await User.update(
+      console.log("OLD PASSWORD RECOGNIZED");
+      User.update(
         { password: req.body.password,
           password_confirmation: req.body.password_confirmation
-        }, {where : {uuid:req.params.uuid} } );
-      console.log(user[1].dataValues);
-      res.status(200).send('Password updated successfully.');*/
+        }, {where : {uuid:req.params.uuid},
+        returning: true, plain: true })
+      .then( response => {
+        res.status(200).send({ msg: 'Password update done.'}) })
+      .catch( err => {
+        res.status(400).json({ error: err.errors[0].message });
+      });
     } else {
-      console.log("OLD PASSWORD WRONG");
       res.status(400).json({ error: "Old password is incorrect." })
     }
 });
 
 api.delete('/delete/:uuid', async (req,res)=> {
   const user = await User.destroy({where:{uuid: req.params.uuid}});
-  res.status(200).send("User deleted successfully.");
+  res.status(200).json({message: "User deleted successfully." });
 })
 
 

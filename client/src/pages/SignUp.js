@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { TextField, Button, Dialog,
          DialogActions, DialogContent, DialogTitle } from "@material-ui/core";
-import Snackbar from './Snackbar';
+import Snackbar from '../components/Snackbar';
 
 export default class SignUp extends Component {
   state = {

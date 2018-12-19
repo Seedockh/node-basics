@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { TextField, Button, Dialog,
          DialogActions, DialogContent, DialogTitle } from "@material-ui/core";
 import "./SignIn.css";
-import Snackbar from "./Snackbar";
+import Snackbar from "../components/Snackbar";
 
 export default class SignIn extends Component {
   state = {
@@ -40,7 +40,7 @@ export default class SignIn extends Component {
 
     const json = await response.json();
     if (json.error) {
-      return this.setState({ open_snack: true, msg: json.error.message});
+      return this.setState({ open_snack: true, msg: json.error.message });
     } else {
       // I'M CONNECTED
       this.props.connect(json.data.user);

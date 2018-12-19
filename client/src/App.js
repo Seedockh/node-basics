@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom";
 import { AppBar, Toolbar, IconButton, Button } from "@material-ui/core";
 import { Home as HomeIcon } from '@material-ui/icons';
 
@@ -7,7 +7,7 @@ import Home from "./pages/Home";
 import Dashboard from "./pages/Dashboard";
 import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
-import Snackbar from "./pages/Snackbar";
+import Snackbar from "./components/Snackbar";
 
 import "./App.css";
 
@@ -79,37 +79,34 @@ class App extends Component {
                 </Toolbar>
               </AppBar>
           </div>
-          <Route exact path="/" component={Home} />
-          {isConnected && (
-              <Route
-                path="/dashboard"
-                component={() => <Dashboard isConnected={isConnected}/>}
-              />
-          )}
-          {open_snack_login && (
-            <Snackbar variant="success"
-                      message="Successfully logged in !"
-                      open={open_snack_login}
-                      onClose={this.handleCloseSnack}/>
-          )}
-          {open_snack_logout && (
-            <Snackbar variant="warning"
-                      message="Logged out"
-                      open={open_snack_logout}
-                      onClose={this.handleCloseSnack}/>
-          )}
-          {open_snack_register && (
-            <Snackbar variant="success"
-                      message="User successfully created."
-                      open={open_snack_register}
-                      onClose={this.handleCloseSnack}/>
-          )}
-          {open_signin && (
-            <SignIn connect={this.handleLogin} open={open_signin} close={this.handleClose}/>
-          )}
-          {open_signup && (
-            <SignUp register={this.handleRegister} open={open_signup} close={this.handleClose}/>
-          )}
+          <Switch>
+            <Route exact path="/" component={Home} />
+            <Route path="/dashboard" component={() => <Dashboard isConnected={isConnected}/>} />
+          </Switch>
+            {open_snack_login && (
+              <Snackbar variant="success"
+                        message="Successfully logged in !"
+                        open={open_snack_login}
+                        onClose={this.handleCloseSnack}/>
+            )}
+            {open_snack_logout && (
+              <Snackbar variant="warning"
+                        message="Logged out"
+                        open={open_snack_logout}
+                        onClose={this.handleCloseSnack}/>
+            )}
+            {open_snack_register && (
+              <Snackbar variant="success"
+                        message="User successfully created."
+                        open={open_snack_register}
+                        onClose={this.handleCloseSnack}/>
+            )}
+            {open_signin && (
+              <SignIn connect={this.handleLogin} open={open_signin} close={this.handleClose}/>
+            )}
+            {open_signup && (
+              <SignUp register={this.handleRegister} open={open_signup} close={this.handleClose}/>
+            )}
         </>
       </Router>
     );

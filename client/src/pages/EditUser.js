@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { TextField, Button } from "@material-ui/core";
-import Snackbar from './Snackbar';
+import Snackbar from '../components/Snackbar';
+import { Redirect } from 'react-router-dom';
 import './EditUser.css';
 
 export default class SignUp extends Component {
@@ -38,8 +39,6 @@ export default class SignUp extends Component {
     });
 
     const json = await response.json();
-      console.log(json);
-
     if (json.error) {
       return this.setState({
         open_snack: true, variant:"error", msg: json.error,
@@ -68,12 +67,13 @@ export default class SignUp extends Component {
             body: JSON.stringify({old_password, password, password_confirmation}),
           });
 
-          const json = await response;
-          console.log(json);
-          if (json.error) {
+          const json = await response.json();
+          if(json.error) {
             return this.setState({ open_snack: true, variant:"error", msg: json.error});
           } else {
-            return this.setState({ open_snack: true, variant:"success", msg: "Password updated successfully."});
+            localStorage.clear();
+            this.setState({ open_snack: true, variant:"success", msg: "Password updated successfully."});
+            return <Redirect to="/" />
           }
       }
     }
