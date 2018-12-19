@@ -21,7 +21,8 @@ COLOR_PRIMARY=2
 COLOR_SECONDARY=6
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 #~~            END CONFIG             ~~#
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#```
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
+```
 
 ### Start the project :
 To start the whole project, simply type in your root directory :
