@@ -1,7 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-import { ExpansionPanel,ExpansionPanelDetails,ExpansionPanelSummary,Typography,Button } from '@material-ui/core';
+import { ExpansionPanel,ExpansionPanelDetails,ExpansionPanelSummary,
+         Typography,Button,Dialog, DialogTitle, DialogContent,
+         DialogContentText, DialogActions, Slide } from '@material-ui/core';
 import { ExpandMore, Delete } from '@material-ui/icons';
 import './Panels.css';
 import EditUser from './EditUser';
@@ -22,6 +24,10 @@ const styles = theme => ({
   },
 });
 
+function Transition(props) {
+  return <Slide direction="left" {...props} />;
+}
+
 class ControlledExpansionPanels extends React.Component {
   state = {
     expanded: null,
@@ -38,27 +44,9 @@ class ControlledExpansionPanels extends React.Component {
    this.setState({ open: true });
   };
 
-  deleteUser = async () => {
-    console.log("DELETE CALLED");
-    const token = localStorage.getItem('token');
-    const response = await fetch("http://localhost:4242/api/users/delete/"+localStorage.getItem('uuid'), {
-      headers: {
-        "Authorization": 'Bearer '+token,
-      },
-      method: "DELETE",
-      body: JSON.stringify({token}),
-    });
-
-    const json = await response.json();
-    console.log(json); return;
-    if(json.error) {
-      return this.setState({ open_snack: true, variant:"error", msg: json.error});
-    } else {
-      localStorage.clear();
-      this.setState({ open_snack: true, variant:"success", msg: "Password updated successfully."});
-      //this.props.changePassword();
-    }
-  }
+  handleClose = () => {
+   this.setState({ open: false });
+  };
 
   render() {
     const { classes, type } = this.props;
@@ -100,10 +88,36 @@ class ControlledExpansionPanels extends React.Component {
             </ExpansionPanelSummary>
             <ExpansionPanelDetails>
               <div className="alignright">
-                <Button variant="contained" color="secondary" className={classes.button}>
+                <Button  onClick={this.handleClickOpen} variant="contained" color="secondary" className={classes.button}>
                   Delete my account
-                  <Delete onClick={this.deleteUser} className={classes.rightIcon} />
+                  <Delete className={classes.rightIcon} />
                 </Button>
+                <Dialog
+                  open={this.state.open}
+                  TransitionComponent={Transition}
+                  keepMounted
+                  onClose={this.handleClose}
+                  aria-labelledby="alert-dialog-slide-title"
+                  aria-describedby="alert-dialog-slide-description"
+                >
+                  <DialogTitle id="alert-dialog-slide-title">
+                    {"Delete my account"}
+                  </DialogTitle>
+                  <DialogContent>
+                    <DialogContentText id="alert-dialog-slide-description">
+                      This is a single shot operation. All your projets will be deleted.<br/>
+                      Do you still want to continue ?
+                    </DialogContentText>
+                  </DialogContent>
+                  <DialogActions>
+                    <Button onClick={this.handleClose} color="primary">
+                      Disagree
+                    </Button>
+                    <Button onClick={this.props.deleteUser} color="primary">
+                      Agree
+                    </Button>
+                  </DialogActions>
+                </Dialog>
               </div>
             </ExpansionPanelDetails>
           </ExpansionPanel>
