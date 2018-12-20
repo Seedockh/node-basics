@@ -78,14 +78,21 @@ export default class User extends Model {
 
         hooks: {
           async beforeValidate(userInstance) {
-            userInstance.password_digest = await userInstance.generateHash();
+            if (!userInstance.changed("password")) {
+              userInstance.password_digest = await userInstance.generateHash();
+            }
           },
 
           async beforeSave(userInstance) {
             if (!userInstance.isNewRecord && userInstance.changed("password")) {
               userInstance.password_digest = await userInstance.generateHash();
             }
-          }
+          },
+          async beforeUpdate(userInstance) {
+            if (userInstance.password && userInstance.changed("password")) {
+              userInstance.password_digest = await userInstance.generateHash();
+            }
+          },
         }
       }
     );
@@ -110,7 +117,8 @@ export default class User extends Model {
     const values = Object.assign({}, this.get());
 
     delete values.password_digest;
-
+    delete values.password;
+    delete values.password_confirmation;
     return values;
   }
 }

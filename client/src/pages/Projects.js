@@ -21,7 +21,7 @@ const styles = theme => ({
 class CheckboxList extends React.Component {
   state = {
     checked: [],
-    projects: this.props.getProjects(),
+    projects: null,//this.props.getProjects(),
     projects_loaded: false,
   };
 

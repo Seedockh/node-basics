@@ -15,4 +15,3 @@ User.hasMany(Project, {
     allowNull: false
   }
 });
-Project.belongsTo(User);

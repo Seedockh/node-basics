@@ -25,7 +25,7 @@ api.put('/update/:uuid', (req,res,next)=> {
             email: req.body.email,
             password: "fake_password",
             password_confirmation: "fake_password"
-          }, {where : {uuid:req.params.uuid},
+          }, { where : {uuid:req.params.uuid},
           returning: true, plain: true })
           .then( response => {
             res.status(200).json({msg:'User information updated successfully.'}) })
@@ -44,17 +44,21 @@ api.put('/updatepassword/:uuid', async (req,res,next)=> {
         } else {
           const old_user = await User.findByPk(req.params.uuid);
           if ((await old_user.checkPassword(req.body.old_password))) {
-            /*User.update(
+            old_user.update(
               { password: req.body.password,
-                password_confirmation: req.body.password_confirmation
-              }, {where : {uuid:req.params.uuid},
-              returning: true, plain: true })*/
-            const db = new Sequelize('postgres://postgres:modochief@localhost:5432/seedockh.dev');
-            await db.query(`UPDATE "users" SET "password" = '${req.body.password}', "password_confirmation" = '${req.body.password_confirmation}' WHERE "uuid" = '${req.params.uuid}'` )
+                password_confirmation: req.body.password_confirmation,
+              }, {
+                where : {uuid:req.params.uuid},
+              returning: true, plain: true })
             .then( response => {
               res.status(200).send({ msg: 'Password update done.'}) })
             .catch( err => {
-              res.status(400).json({ error: ''+err.original.severity+' : Can\'t update password for now.' });
+              if (err.errors[0]) {
+                res.status(400).json({ error: ''+err.errors[0].message});
+              }
+              if (err.original) {
+                res.status(400).json({ error: ''+err.original.name+' : Can\'t update password for now.' });
+              }
             });
           } else {
             res.status(400).json({ error: "Old password is incorrect." })

@@ -73,9 +73,9 @@ export default class SignUp extends Component {
           if(json.error) {
             return this.setState({ open_snack: true, variant:"error", msg: json.error});
           } else {
-            //localStorage.clear();
+            localStorage.clear();
             this.setState({ open_snack: true, variant:"success", msg: "Password updated successfully."});
-            //this.props.changePassword();
+            this.props.changePassword();
           }
       }
     }
