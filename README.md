@@ -1,4 +1,4 @@
-# LAUNCHER
+### LAUNCHER
 
 First, check the configs to set what you need from the start script :
 
@@ -23,6 +23,8 @@ COLOR_SECONDARY=6
 #~~            END CONFIG             ~~#
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 ```
+
+
 
 ### Start the project :
 To start the whole project, simply type in your root directory :
