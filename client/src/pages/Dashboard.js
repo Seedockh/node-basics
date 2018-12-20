@@ -42,15 +42,15 @@ class Dashboard extends Component {
         <Paper className="home">
         <Grid container direction="column" spacing={16}>
           <Grid item className="dashboard">
-            <h2 className="title">Welcome to your dashboard, {nickname}</h2>
+            <h3 className="title">Dashboard - {nickname}</h3>
             <Grid className="panelsgrid">
-              <div className={this.props.classes.root+" categories"}>User Panel</div>
-              <Grid item className="panels">
-                <Panels type="user" userupdate={this.listenStorage} changePassword={this.changePassword}/>
-              </Grid>
               <div className={this.props.classes.root+" categories"}>Projects Panel</div>
               <Grid item className="panels">
                 <Panels type="projects"/>
+              </Grid>
+              <div className={this.props.classes.root+" categories"}>User Panel</div>
+              <Grid item className="panels">
+                <Panels type="user" userupdate={this.listenStorage} changePassword={this.changePassword}/>
               </Grid>
             </Grid>
           </Grid>
