@@ -21,7 +21,7 @@ api.post("/", async (req, res) => {
 api.post("/create", async (req,res) => {
   const { name, uuid } = req.body;
   try {
-    const project = new Project({ name, uuid });
+    const project = new Project({ name, user_uuid: uuid });
     await project.save();
 
     res.status(201).json({ data: { project } });

@@ -1,11 +1,11 @@
 .home {
   display: flex;
-  justify-content: center;
+  justify-content: space-around;
+  flex-wrap: wrap;
   margin: 0;
+  height: 100% !important;
 }
 
-.paper {
-  width: 80vw;
-  height: 200px;
-  padding: 2em;
+.publicproject {
+  margin-bottom: 2em;
 }

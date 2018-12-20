@@ -3,3 +3,21 @@
   border-radius: 4px !important;
   padding: 0 !important;
 }
+
+.noproject {
+  text-align: center;
+  padding: 2em;
+}
+
+.addbutton {
+  margin-left: 2em !important;
+}
+
+.projectbuttons {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.progressbar {
+  margin: 4em 0 4em 0;
+}

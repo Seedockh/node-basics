@@ -55,6 +55,7 @@ class Dashboard extends Component {
 
   render() {
     const { isConnected, nickname } = this.state;
+    const { getProjects, projects, projects_loaded } = this.props;
     return (
       <>
       {!isConnected && (
@@ -68,7 +69,7 @@ class Dashboard extends Component {
             <Grid className="panelsgrid">
               <div className={this.props.classes.root+" categories"}>Projects Panel</div>
               <Grid item className="panels">
-                <Panels type="projects"/>
+                <Panels type="projects" getProjects={getProjects} projects={projects} projects_loaded={projects_loaded}/>
               </Grid>
               <div className={this.props.classes.root+" categories"}>User Panel</div>
               <Grid item className="panels">

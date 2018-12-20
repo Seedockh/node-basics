@@ -32,8 +32,6 @@ class ControlledExpansionPanels extends React.Component {
   state = {
     expanded: null,
     open: false,
-    projects_loaded: false,
-    projects: [],
   };
 
   handleChange = panel => (event, expanded) => {
@@ -50,37 +48,15 @@ class ControlledExpansionPanels extends React.Component {
    this.setState({ open: false });
   };
 
-  getProjects = async () => {
-    const uuid = localStorage.getItem('uuid');
-    const token = localStorage.getItem('token');
-
-    const response = await fetch("http://localhost:4242/api/users/projects/"+uuid, {
-      headers: {
-        "Authorization": 'Bearer '+token,
-        "Content-Type": "application/json"
-      },
-      method: "POST",
-      body: JSON.stringify({uuid, token}),
-    });
-
-    const json = await response.json();
-    if (json.error) {
-      return this.setState({ open_snack: true, variant:"error", msg: json.error });
-    } else {
-      
-      this.setState({ projects_loaded: true, projects: json.data });
-    }
-  }
-
   render() {
-    const { classes, type } = this.props;
-    const { expanded, projects_loaded, projects } = this.state;
+    const { classes, type, getProjects, projects_loaded, projects } = this.props;
+    const { expanded } = this.state;
 
     return (
       <div className={classes.root}>
         {type==="projects" && (
           <>
-            <Projects projects_loaded={projects_loaded} getProjects={this.getProjects}/>
+            <Projects projects_loaded={projects_loaded} getProjects={getProjects} projects={projects}/>
           </>
         )}
         {type==="user" && (
