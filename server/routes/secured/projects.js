@@ -3,8 +3,8 @@ import Project from "../../models/project";
 
 const api = Router();
 
-api.get("/", async (req, res) => {
-  const projects = await Project.findAll();
+api.post("/", async (req, res) => {
+  const projects = await Project.findAll({where: {UserUuid: req.body.UserUuid} });
   res.status(200).json({ msg: 'All your projects', data: { projects } });
 });
 

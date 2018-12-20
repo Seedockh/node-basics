@@ -9,6 +9,7 @@ import Checkbox from '@material-ui/core/Checkbox';
 import IconButton from '@material-ui/core/IconButton';
 import CommentIcon from '@material-ui/icons/Comment';
 import './Projects.css';
+import Progress from '../components/Progress';
 
 const styles = theme => ({
   root: {
@@ -20,7 +21,8 @@ const styles = theme => ({
 class CheckboxList extends React.Component {
   state = {
     checked: [],
-    projects: [],
+    projects: this.props.getProjects(),
+    projects_loaded: false,
   };
 
   handleToggle = value => () => {
@@ -41,24 +43,32 @@ class CheckboxList extends React.Component {
 
   render() {
     const { classes } = this.props;
+    const { projects_loaded, projects } = this.state;
 
     return (
       <List className={classes.root+" projectslist"}>
-        {[0, 1, 2, 3].map(value => (
-          <ListItem key={value} role={undefined} dense button onClick={this.handleToggle(value)}>
-            <Checkbox
-              checked={this.state.checked.indexOf(value) !== -1}
-              tabIndex={-1}
-              disableRipple
-            />
-            <ListItemText primary={`Line item ${value + 1}`} />
-            <ListItemSecondaryAction>
-              <IconButton aria-label="Comments">
-                <CommentIcon />
-              </IconButton>
-            </ListItemSecondaryAction>
-          </ListItem>
-        ))}
+        {!projects_loaded && (
+          <Progress />
+        )}
+        {projects_loaded && (
+          <>
+          {[0, 1, 2, 3].map(value => (
+            <ListItem key={value} role={undefined} dense button onClick={this.handleToggle(value)}>
+              <Checkbox
+                checked={this.state.checked.indexOf(value) !== -1}
+                tabIndex={-1}
+                disableRipple
+              />
+              <ListItemText primary={`Line item ${value + 1}`} />
+              <ListItemSecondaryAction>
+                <IconButton aria-label="Comments">
+                  <CommentIcon />
+                </IconButton>
+              </ListItemSecondaryAction>
+            </ListItem>
+          ))}
+          </>
+        )}
       </List>
     );
   }
