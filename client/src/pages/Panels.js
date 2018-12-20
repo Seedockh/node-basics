@@ -67,6 +67,7 @@ class ControlledExpansionPanels extends React.Component {
     if (json.error) {
       return this.setState({ open_snack: true, variant:"error", msg: json.error });
     } else {
+      
       this.setState({ projects_loaded: true, projects: json.data });
     }
   }

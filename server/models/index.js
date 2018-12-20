@@ -9,5 +9,10 @@ export const db = new Sequelize(process.env.DATABASE_URL);
 User.init(db);
 Project.init(db);
 
-User.hasMany(Project);
+User.hasMany(Project, {
+  foreignKey: {
+    name: 'uuid',
+    allowNull: false
+  }
+});
 Project.belongsTo(User);

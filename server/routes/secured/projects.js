@@ -1,17 +1,25 @@
 import { Router } from "express";
 import Project from "../../models/project";
+import User from "../../models/user";
 
 const api = Router();
 
 api.post("/", async (req, res) => {
-  const projects = await Project.findAll({where: {UserUuid: req.body.UserUuid} });
-  res.status(200).json({ msg: 'All your projects', data: { projects } });
+  await Project.findAll()
+  .then( response => {
+    console.log(response);
+    res.status(200).json({ msg: 'All your projects ', data: response });
+  }).catch( err => {
+    console.log("ERREUR");
+    console.log(err);
+    res.status(400).json({ error: "A problem occured when loading your projects."})
+  });
 });
 
 api.post("/create", async (req,res) => {
-  const { UserUuid, name } = req.body;
+  const { name, uuid } = req.body;
   try {
-    const project = new Project({ UserUuid, name });
+    const project = new Project({ name, uuid });
     await project.save();
 
     res.status(201).json({ data: { project } });

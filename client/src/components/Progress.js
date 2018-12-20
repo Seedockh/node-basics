@@ -16,7 +16,7 @@ class LinearBuffer extends React.Component {
   };
 
   componentDidMount() {
-    this.timer = setInterval(this.progress, 500);
+    this.timer = setInterval(this.progress, 800);
   }
 
   componentWillUnmount() {
