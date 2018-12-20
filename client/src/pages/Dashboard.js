@@ -64,7 +64,7 @@ class Dashboard extends Component {
         <Paper className="home">
         <Grid container direction="column" spacing={16}>
           <Grid item className="dashboard">
-            <h4 className="title">Dashboard - {nickname}</h4>
+            <h4 className="title">DASHBOARD ~ {nickname.toUpperCase()}</h4>
             <Grid className="panelsgrid">
               <div className={this.props.classes.root+" categories"}>Projects Panel</div>
               <Grid item className="panels">

@@ -9,9 +9,11 @@ export const db = new Sequelize(process.env.DATABASE_URL);
 User.init(db);
 Project.init(db);
 
-User.hasMany(Project, {
+Project.belongsTo(User, {
+  as: 'user',
+  onDelete: 'CASCADE',
   foreignKey: {
-    name: 'uuid',
+    name: 'user_uuid',
     allowNull: false
   }
 });

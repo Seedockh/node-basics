@@ -78,7 +78,7 @@ export default class User extends Model {
 
         hooks: {
           async beforeValidate(userInstance) {
-            if (!userInstance.changed("password")) {
+            if (userInstance.isNewRecord) {
               userInstance.password_digest = await userInstance.generateHash();
             }
           },

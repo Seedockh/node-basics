@@ -24,9 +24,15 @@ export default class Project extends Model {
         indexes: [
           {
             unique: true,
-            fields: ["id"]
+            fields: ["id","user_uuid"]
           }
-        ]
+        ],
+        hooks: {
+          async beforeValidate(projectInstance) {
+            console.log("---------  BEFOREVALIDATE PROJECT  -------------");
+            //userInstance.password_digest = await userInstance.generateHash();
+          }
+        },
       }
     );
   }

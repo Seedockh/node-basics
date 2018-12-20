@@ -5,7 +5,9 @@ import User from "../../models/user";
 const api = Router();
 
 api.post("/", async (req, res) => {
-  await Project.findAll()
+  console.log(req.body);
+  Project.findAll({
+    where: {user_uuid:req.body.uuid} })
   .then( response => {
     console.log(response);
     res.status(200).json({ msg: 'All your projects ', data: response });
