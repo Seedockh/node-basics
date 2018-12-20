@@ -1,5 +1,7 @@
 import { Router } from "express";
 import User from "../../models/user";
+import jwt from 'jsonwebtoken';
+import Sequelize from 'sequelize';
 
 const api = Router();
 
@@ -14,49 +16,68 @@ api.post('/:uuid', async (req,res)=> {
 })
 
 api.put('/update/:uuid', (req,res,next)=> {
-  console.log(`
-    --------- UPDATING DETAILS ---------
-    `);
-  User.update(
-    { nickname: req.body.nickname,
-      email: req.body.email,
-      password: "fake_password",
-      password_confirmation: "fake_password"
-    }, {where : {uuid:req.params.uuid},
-    returning: true, plain: true })
-    .then( response => {
-      res.status(200).json({msg:'User information updated successfully.'}) })
-    .catch( err => {
-      res.status(400).json({ error: err.original.detail })
-    });
+  jwt.verify(req.body.token,"mysupersecret", async (err,decoded) => {
+      if (err) {
+        res.status(400).json({ error: 'Token error : '+err.message });
+      } else {
+        User.update(
+          { nickname: req.body.nickname,
+            email: req.body.email,
+            password: "fake_password",
+            password_confirmation: "fake_password"
+          }, {where : {uuid:req.params.uuid},
+          returning: true, plain: true })
+          .then( response => {
+            res.status(200).json({msg:'User information updated successfully.'}) })
+          .catch( err => {
+            res.status(400).json({ error: err.original.detail })
+          });
+  	   }
+  });
+
 });
 
 api.put('/updatepassword/:uuid', async (req,res,next)=> {
-  console.log(`
-    --------- UPDATING PASSWORD ---------
-    `);
-    const old_user = await User.findByPk(req.params.uuid);
+    jwt.verify(req.body.token,"mysupersecret", async (err,decoded) => {
+        if (err) {
+          res.status(400).json({ error: 'Token error : '+err.message });
+        } else {
+          const old_user = await User.findByPk(req.params.uuid);
+          if ((await old_user.checkPassword(req.body.old_password))) {
+            /*User.update(
+              { password: req.body.password,
+                password_confirmation: req.body.password_confirmation
+              }, {where : {uuid:req.params.uuid},
+              returning: true, plain: true })*/
+            const db = new Sequelize('postgres://postgres:modochief@localhost:5432/seedockh.dev');
+            await db.query(`UPDATE "users" SET "password" = '${req.body.password}', "password_confirmation" = '${req.body.password_confirmation}' WHERE "uuid" = '${req.params.uuid}'` )
+            .then( response => {
+              res.status(200).send({ msg: 'Password update done.'}) })
+            .catch( err => {
+              res.status(400).json({ error: ''+err.original.severity+' : Can\'t update password for now.' });
+            });
+          } else {
+            res.status(400).json({ error: "Old password is incorrect." })
+          }
+    	}
+    });
 
-    if ((await old_user.checkPassword(req.body.old_password))) {
-      console.log("OLD PASSWORD RECOGNIZED");
-      User.update(
-        { password: req.body.password,
-          password_confirmation: req.body.password_confirmation
-        }, {where : {uuid:req.params.uuid},
-        returning: true, plain: true })
-      .then( response => {
-        res.status(200).send({ msg: 'Password update done.'}) })
-      .catch( err => {
-        res.status(400).json({ error: err.errors[0].message });
-      });
-    } else {
-      res.status(400).json({ error: "Old password is incorrect." })
-    }
 });
 
 api.delete('/delete/:uuid', async (req,res)=> {
-  const user = await User.destroy({where:{uuid: req.params.uuid}});
-  res.status(200).json({message: "User deleted successfully." });
+  jwt.verify(req.body.token,"mysupersecret", async (err,decoded) => {
+      if (err) {
+        res.status(400).json({ error: 'Token error : '+err.message });
+      } else {
+        await User.destroy({where:{uuid: req.params.uuid}})
+        .then( response => {
+          res.status(200).json({msg: "User deleted successfully." }) })
+        .catch( err => {
+          console.log(err);
+          res.status(400).json({ error: err.original.detail })
+        });
+      }
+  });
 })
 
 

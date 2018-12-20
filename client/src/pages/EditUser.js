@@ -27,14 +27,15 @@ export default class SignUp extends Component {
 
   updatedetails = async () => {
     const { nickname, email } = this.state;
+    const token = localStorage.getItem('token');
 
     const response = await fetch("http://localhost:4242/api/users/update/"+localStorage.getItem('uuid'), {
       headers: {
-        "Authorization": 'Bearer '+localStorage.getItem('token'),
+        "Authorization": 'Bearer '+token,
         "Content-Type": "application/json"
       },
       method: "PUT",
-      body: JSON.stringify({nickname, email}),
+      body: JSON.stringify({nickname, email, token}),
     });
 
     const json = await response.json();
@@ -52,6 +53,7 @@ export default class SignUp extends Component {
 
   updatepassword = async () => {
     const { old_password, password, password_confirmation } = this.state;
+    const token = localStorage.getItem('token');
 
     if (password!=="") {
       if (password_confirmation!==password) {
@@ -59,20 +61,21 @@ export default class SignUp extends Component {
       } else {
           const response = await fetch("http://localhost:4242/api/users/updatepassword/"+localStorage.getItem('uuid'), {
             headers: {
-              "Authorization": 'Bearer '+localStorage.getItem('token'),
+              "Authorization": 'Bearer '+token,
               "Content-Type": "application/json"
             },
             method: "PUT",
-            body: JSON.stringify({old_password, password, password_confirmation}),
+            body: JSON.stringify({old_password, password, password_confirmation, token}),
           });
 
           const json = await response.json();
+
           if(json.error) {
             return this.setState({ open_snack: true, variant:"error", msg: json.error});
           } else {
-            localStorage.clear();
+            //localStorage.clear();
             this.setState({ open_snack: true, variant:"success", msg: "Password updated successfully."});
-            this.props.changePassword();
+            //this.props.changePassword();
           }
       }
     }

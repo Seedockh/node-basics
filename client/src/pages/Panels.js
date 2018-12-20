@@ -5,6 +5,7 @@ import { ExpansionPanel,ExpansionPanelDetails,ExpansionPanelSummary,Typography,B
 import { ExpandMore, Delete } from '@material-ui/icons';
 import './Panels.css';
 import EditUser from './EditUser';
+import Projects from './Projects';
 
 const styles = theme => ({
   root: {
@@ -37,8 +38,26 @@ class ControlledExpansionPanels extends React.Component {
    this.setState({ open: true });
   };
 
-  deleteUser = () => {
+  deleteUser = async () => {
+    console.log("DELETE CALLED");
+    const token = localStorage.getItem('token');
+    const response = await fetch("http://localhost:4242/api/users/delete/"+localStorage.getItem('uuid'), {
+      headers: {
+        "Authorization": 'Bearer '+token,
+      },
+      method: "DELETE",
+      body: JSON.stringify({token}),
+    });
 
+    const json = await response.json();
+    console.log(json); return;
+    if(json.error) {
+      return this.setState({ open_snack: true, variant:"error", msg: json.error});
+    } else {
+      localStorage.clear();
+      this.setState({ open_snack: true, variant:"success", msg: "Password updated successfully."});
+      //this.props.changePassword();
+    }
   }
 
   render() {
@@ -47,6 +66,11 @@ class ControlledExpansionPanels extends React.Component {
 
     return (
       <div className={classes.root}>
+        {type==="projects" && (
+          <>
+            <Projects />
+          </>
+        )}
         {type==="user" && (
           <>
           <ExpansionPanel expanded={expanded === 'panel1'} onChange={this.handleChange('panel1')}>
@@ -78,64 +102,9 @@ class ControlledExpansionPanels extends React.Component {
               <div className="alignright">
                 <Button variant="contained" color="secondary" className={classes.button}>
                   Delete my account
-                  <Delete onClick={this.handleClickOpen} className={classes.rightIcon} />
+                  <Delete onClick={this.deleteUser} className={classes.rightIcon} />
                 </Button>
               </div>
-            </ExpansionPanelDetails>
-          </ExpansionPanel>
-          </>
-        )}
-        {type==="projects" && (
-          <>
-          <ExpansionPanel expanded={expanded === 'panel1'} onChange={this.handleChange('panel1')}>
-            <ExpansionPanelSummary expandIcon={<ExpandMore />}>
-              <Typography className={classes.heading}>General settings</Typography>
-              <Typography className={classes.secondaryHeading}>I am an expansion panel</Typography>
-            </ExpansionPanelSummary>
-            <ExpansionPanelDetails>
-              <Typography>
-                Nulla facilisi. Phasellus sollicitudin nulla et quam mattis feugiat. Aliquam eget
-                maximus est, id dignissim quam.
-              </Typography>
-            </ExpansionPanelDetails>
-          </ExpansionPanel>
-          <ExpansionPanel expanded={expanded === 'panel2'} onChange={this.handleChange('panel2')}>
-            <ExpansionPanelSummary expandIcon={<ExpandMore />}>
-              <Typography className={classes.heading}>Users</Typography>
-              <Typography className={classes.secondaryHeading}>
-                You are currently not an owner
-              </Typography>
-            </ExpansionPanelSummary>
-            <ExpansionPanelDetails>
-              <Typography>
-                Donec placerat, lectus sed mattis semper, neque lectus feugiat lectus, varius pulvinar
-                diam eros in elit. Pellentesque convallis laoreet laoreet.
-              </Typography>
-            </ExpansionPanelDetails>
-          </ExpansionPanel>
-          <ExpansionPanel expanded={expanded === 'panel3'} onChange={this.handleChange('panel3')}>
-            <ExpansionPanelSummary expandIcon={<ExpandMore />}>
-              <Typography className={classes.heading}>Advanced settings</Typography>
-              <Typography className={classes.secondaryHeading}>
-                Filtering has been entirely disabled for whole web server
-              </Typography>
-            </ExpansionPanelSummary>
-            <ExpansionPanelDetails>
-              <Typography>
-                Nunc vitae orci ultricies, auctor nunc in, volutpat nisl. Integer sit amet egestas
-                eros, vitae egestas augue. Duis vel est augue.
-              </Typography>
-            </ExpansionPanelDetails>
-          </ExpansionPanel>
-          <ExpansionPanel expanded={expanded === 'panel4'} onChange={this.handleChange('panel4')}>
-            <ExpansionPanelSummary expandIcon={<ExpandMore />}>
-              <Typography className={classes.heading}>Personal data</Typography>
-            </ExpansionPanelSummary>
-            <ExpansionPanelDetails>
-              <Typography>
-                Nunc vitae orci ultricies, auctor nunc in, volutpat nisl. Integer sit amet egestas
-                eros, vitae egestas augue. Duis vel est augue.
-              </Typography>
             </ExpansionPanelDetails>
           </ExpansionPanel>
           </>
