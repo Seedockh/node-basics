@@ -10,10 +10,9 @@ User.init(db);
 Project.init(db);
 
 Project.belongsTo(User, {
-  as: 'user',
   onDelete: 'CASCADE',
   foreignKey: {
-    name: 'user_uuid',
     allowNull: false
   }
 });
+User.hasMany(Project);

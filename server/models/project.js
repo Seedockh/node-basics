@@ -24,7 +24,7 @@ export default class Project extends Model {
         indexes: [
           {
             unique: true,
-            fields: ["id","user_uuid"]
+            fields: ["id"]
           }
         ],
       }

@@ -28,7 +28,7 @@ api.post("/register", async (req, res) => {
 });
 
 api.post("/login", async (req, res) => {
-  passport.authenticate("local", { session: false }, (err, user) => {
+  passport.authenticate("local", { session: false }, async (err, user) => {
     if (err) {
       res.status(400).json({
         error: { message: err }
