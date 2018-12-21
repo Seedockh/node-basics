@@ -45,10 +45,17 @@ export default class SignIn extends Component {
       // I'M CONNECTED
       this.props.connect(json.data.user);
       this.handleClose();
-      localStorage.setItem("token", json.meta.token);
-      localStorage.setItem("username", json.data.user.nickname);
-      localStorage.setItem("uuid",json.data.user.uuid);
-      localStorage.setItem("usermail",json.data.user.email);
+      localStorage.token = json.meta.token;       // localStorage is on readonly mode : cannot destruct :(
+      localStorage.uuid = json.data.user.uuid;
+      localStorage.username = json.data.user.nickname;
+      localStorage.usermail = json.data.user.email;
+    }
+  };
+
+  enterPress = (ev) => {
+    if (ev.key === 'Enter') {
+      this.login();
+      ev.preventDefault();
     }
   };
 
@@ -63,6 +70,7 @@ export default class SignIn extends Component {
           <DialogTitle id="form-dialog-title">Login</DialogTitle>
           <DialogContent>
             <TextField
+              autoFocus
               required
               margin="dense"
               id="nickname"
@@ -73,6 +81,7 @@ export default class SignIn extends Component {
               fullWidth
               onChange={this.handleChange}
               spellCheck="false"
+              onKeyPress={this.enterPress}
             />
             <TextField
               required
@@ -85,6 +94,7 @@ export default class SignIn extends Component {
               fullWidth
               onChange={this.handleChange}
               spellCheck="false"
+              onKeyPress={this.enterPress}
             />
             {(msg.length>0) && (
               <Snackbar variant="error" message={msg} open={open_snack} onClose={this.handleCloseSnack}/>

@@ -3,11 +3,11 @@ import { TextField, Button } from "@material-ui/core";
 import Snackbar from '../components/Snackbar';
 import './EditUser.css';
 
-export default class SignUp extends Component {
+export default class EditUser extends Component {
   state = {
     updatepassword: this.props.updatepassword,
-    nickname: localStorage.getItem('username'),
-    email: localStorage.getItem('usermail'),
+    nickname: localStorage.username,
+    email: localStorage.usermail,
     old_password: "",
     password: "",
     password_confirmation: "",
@@ -27,9 +27,9 @@ export default class SignUp extends Component {
 
   updatedetails = async () => {
     const { nickname, email } = this.state;
-    const token = localStorage.getItem('token');
+    const { uuid, token } = localStorage;
 
-    const response = await fetch("http://localhost:4242/api/users/update/"+localStorage.getItem('uuid'), {
+    const response = await fetch("http://localhost:4242/api/users/update/"+uuid, {
       headers: {
         "Authorization": 'Bearer '+token,
         "Content-Type": "application/json"
@@ -42,10 +42,10 @@ export default class SignUp extends Component {
     if (json.error) {
       return this.setState({
         open_snack: true, variant:"error", msg: json.error,
-        nickname: localStorage.getItem('username'), email: localStorage.getItem('usermail')
+        nickname: localStorage.username, email: localStorage.usermail
       });
     } else {
-      localStorage.setItem('username',nickname); localStorage.setItem('usermail',email);
+      localStorage.username = nickname; localStorage.usermail = email;
       this.props.userupdate();
       return this.setState({ open_snack: true, variant:"success", msg: "Details updated successfully."});
     }
@@ -53,13 +53,13 @@ export default class SignUp extends Component {
 
   updatepassword = async () => {
     const { old_password, password, password_confirmation } = this.state;
-    const token = localStorage.getItem('token');
+    const { uuid, token } = localStorage;
 
     if (password!=="") {
       if (password_confirmation!==password) {
         return this.setState({ open_snack: true, msg: "Password confirmation different than password."});
       } else {
-          const response = await fetch("http://localhost:4242/api/users/updatepassword/"+localStorage.getItem('uuid'), {
+          const response = await fetch("http://localhost:4242/api/users/updatepassword/"+uuid, {
             headers: {
               "Authorization": 'Bearer '+token,
               "Content-Type": "application/json"

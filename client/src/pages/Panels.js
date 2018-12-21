@@ -28,7 +28,7 @@ function Transition(props) {
   return <Slide direction="left" {...props} />;
 }
 
-class ControlledExpansionPanels extends React.Component {
+class Panels extends React.Component {
   state = {
     expanded: null,
     open: false,
@@ -128,8 +128,8 @@ class ControlledExpansionPanels extends React.Component {
   }
 }
 
-ControlledExpansionPanels.propTypes = {
+Panels.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(ControlledExpansionPanels);
+export default withStyles(styles)(Panels);

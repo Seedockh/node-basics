@@ -16,10 +16,10 @@ class LinearBuffer extends React.Component {
   };
 
   componentDidMount() {
-    this.timer = setInterval(this.progress, 800);
+    this.timer = setInterval(this.progress, 50);
   }
 
-  componentWillUnmount() {
+  componentWillUnmount() {        // Used by Material-UI themselves :/ This is their code
     clearInterval(this.timer);
   }
 

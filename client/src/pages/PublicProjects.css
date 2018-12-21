@@ -1,0 +1,10 @@
+.publiclist {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+}
+
+.singlecard {
+  margin-bottom: 3em !important;
+  margin-right: 2em;
+}

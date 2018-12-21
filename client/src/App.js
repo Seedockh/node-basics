@@ -16,7 +16,9 @@ class App extends Component {
     user: null,
     projects: [],
     projects_loaded: false,
-    isConnected: localStorage.getItem('token') ? true : false,
+    allProjects: [],
+    allProjects_loaded: false,
+    isConnected: localStorage.token ? true : false,
     open_signin: false,
     open_signup: false,
     open_snack_login: false,
@@ -24,9 +26,10 @@ class App extends Component {
     open_snack_register: false,
   };
 
-  handleLogin = user => {
-    this.setState({ user, isConnected: true, open_snack_login: true });
-    this.getProjects();
+  handleLogin = async user => {
+    await this.setState({ user, isConnected: true, open_snack_login: true });
+    await this.getAllProjects();
+    await this.getProjects();
   };
 
   handleRegister = user => {
@@ -35,7 +38,7 @@ class App extends Component {
 
   handleLogout = () => {
     localStorage.clear();
-    this.setState({ isConnected: false, open_snack_logout:true });
+    this.setState({ isConnected: false, open_snack_logout:true, projects_loaded: false, allProjects_loaded: false, projects: [], allProjects: [] });
   }
 
   handleOpenSignIn = () => {
@@ -52,34 +55,51 @@ class App extends Component {
   }
 
   getProjects = async () => {
-    const uuid = localStorage.getItem('uuid');
-    const token = localStorage.getItem('token');
+    const { uuid, token } = localStorage;
+    if (this.state.isConnected && localStorage.token) {
+      const response = await fetch("http://localhost:4242/api/projects/", {
+        headers: {
+          "Authorization": 'Bearer '+token,
+          "Content-Type": "application/json"
+        },
+        method: "POST",
+        body: JSON.stringify({uuid, token}),
+      });
 
-    const response = await fetch("http://localhost:4242/api/projects/", {
-      headers: {
-        "Authorization": 'Bearer '+token,
-        "Content-Type": "application/json"
-      },
-      method: "POST",
-      body: JSON.stringify({uuid, token}),
-    });
+      const json = await response.json();
 
-    console.log("response :");
-    console.log(response);
+      if (json.error) {
+        return this.setState({ open_snack: true, variant:"error", msg: json.error });
+      } else {
+        this.setState({ projects_loaded: true, projects: json.data });
+        this.getAllProjects();
+      }
+    }
+  }
 
-    const json = await response;
-    console.log(response); return;
-    if (json.error) {
-      return this.setState({ open_snack: true, variant:"error", msg: json.error });
-    } else {
-      this.setState({ projects_loaded: true, projects: json.data });
-      console.log("update projects : "); console.log(this.state.projects);
-      return this.state.projects;
+  getAllProjects = async () => {
+    if (this.state.isConnected && localStorage.token) {
+      const { token } = localStorage;
+      const response = await fetch("http://localhost:4242/api/projects/", {
+        headers: {
+          "Authorization": 'Bearer '+token,
+          "Content-Type": "application/json"
+        },
+        method: "GET",
+      });
+
+      const json = await response.json();
+      if (json.error) {
+        return this.setState({ open_snack: true, variant:"error", msg: json.error });
+      } else {
+        this.setState({ allProjects_loaded: true, allProjects: json.data });
+      }
     }
   }
 
   render() {
-    const { isConnected, open_signin, open_signup, projects, projects_loaded,
+
+    const { isConnected, open_signin, open_signup, projects, projects_loaded, allProjects, allProjects_loaded,
             open_snack_login, open_snack_logout, open_snack_register } = this.state;
     return (
       <Router>
@@ -110,7 +130,7 @@ class App extends Component {
               </AppBar>
           </div>
           <Switch>
-            <Route exact path="/" component={Home} />
+            <Route exact path="/" component={() => <Home allProjects={allProjects} allProjects_loaded={allProjects_loaded} getAllProjects={this.getAllProjects} isConnected={isConnected}/>} />
             <Route path="/dashboard" component={() => <Dashboard isConnected={isConnected} getProjects={this.getProjects} changePassword={this.handleLogout} projects={projects} projects_loaded={projects_loaded}/>} />
           </Switch>
             {open_snack_login && (
@@ -132,7 +152,7 @@ class App extends Component {
                         onClose={this.handleCloseSnack}/>
             )}
             {open_signin && (
-              <SignIn connect={this.handleLogin} open={open_signin} close={this.handleClose}/>
+              <SignIn connect={this.handleLogin} open={open_signin} close={this.handleClose} getProjects/>
             )}
             {open_signup && (
               <SignUp register={this.handleRegister} open={open_signup} close={this.handleClose}/>

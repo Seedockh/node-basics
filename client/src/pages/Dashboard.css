@@ -15,15 +15,13 @@
 }
 
 .title {
-  font-family: "system-ui", "Helvetica", "Arial", sans-serif;
-    font-weight: 450;
-    line-height: 1.33;
-    letter-spacing: 0em;
+  font-family: "system-ui", "Helvetica", "Arial", sans-serif !important;
+    font-weight: 450 !important;
   position: absolute !important;
-  top: 5.7em !important;
+  top: 8.7em !important;
   left: 12.5%;
   background: #3f51b5;
-  color: white;
+  color: white !important;
   width: 75vw;
   padding: 0.3em 0 !important;
   text-align: center;

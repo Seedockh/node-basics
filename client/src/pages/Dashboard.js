@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Grid, Paper } from "@material-ui/core";
+import { Grid, Paper, Typography } from "@material-ui/core";
 import Panels from './Panels';
 import PropTypes from 'prop-types';
 import { Redirect } from 'react-router-dom';
@@ -17,13 +17,12 @@ const styles = theme => ({
 class Dashboard extends Component {
   state = {
     isConnected: this.props.isConnected,
-    nickname: localStorage.getItem('username'),
-    email: localStorage.getItem('usermail'),
+    nickname: localStorage.username,
+    email: localStorage.usermail,
   }
 
   listenStorage = () => {
-    this.setState({ nickname: localStorage.getItem('username'), email: localStorage.getItem('usermail')});
-    /*&& (window.location.href!=="http://localhost:3000/")*/
+    this.setState({ nickname: localStorage.username, email: localStorage.usermail});
   }
 
   changePassword = () => {
@@ -32,8 +31,8 @@ class Dashboard extends Component {
   }
 
   deleteUser = async () => {
-    const token = await localStorage.getItem('token');
-    const response = await fetch("http://localhost:4242/api/users/delete/"+localStorage.getItem('uuid'), {
+    const { uuid, token } = await localStorage;
+    const response = await fetch("http://localhost:4242/api/users/delete/"+uuid, {
       headers: {
         "Authorization": 'Bearer '+token,
         "Content-Type": 'application/json'
@@ -65,7 +64,9 @@ class Dashboard extends Component {
         <Paper className="home">
         <Grid container direction="column" spacing={16}>
           <Grid item className="dashboard">
-            <h4 className="title">DASHBOARD ~ {nickname.toUpperCase()}</h4>
+            <Typography variant="overline" gutterBottom className="title">
+              DASHBOARD ~ {nickname.toUpperCase()}
+            </Typography>
             <Grid className="panelsgrid">
               <div className={this.props.classes.root+" categories"}>Projects Panel</div>
               <Grid item className="panels">

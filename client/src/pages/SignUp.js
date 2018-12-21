@@ -48,6 +48,13 @@ export default class SignUp extends Component {
     }
   };
 
+  enterPress = (ev) => {
+    if (ev.key === 'Enter') {
+      this.register();
+      ev.preventDefault();
+    }
+  };
+
   render() {
     const { nickname, email, password, password_confirmation, msg, open_snack } = this.state;
 
@@ -60,6 +67,7 @@ export default class SignUp extends Component {
           <DialogTitle id="form-dialog-title">Register</DialogTitle>
           <DialogContent>
             <TextField
+              autoFocus
               margin="dense"
               id="nickname"
               label="Nickname"
@@ -69,6 +77,7 @@ export default class SignUp extends Component {
               fullWidth
               onChange={this.handleChange}
               spellCheck="false"
+              onKeyPress={this.enterPress}
             />
             <TextField
               margin="dense"
@@ -80,6 +89,7 @@ export default class SignUp extends Component {
               fullWidth
               onChange={this.handleChange}
               spellCheck="false"
+              onKeyPress={this.enterPress}
             />
             <TextField
               margin="dense"
@@ -91,6 +101,7 @@ export default class SignUp extends Component {
               fullWidth
               onChange={this.handleChange}
               spellCheck="false"
+              onKeyPress={this.enterPress}
             />
             <TextField
               margin="dense"
@@ -102,6 +113,7 @@ export default class SignUp extends Component {
               fullWidth
               onChange={this.handleChange}
               spellCheck="false"
+              onKeyPress={this.enterPress}
             />
             {(msg.length>0) && (
               <Snackbar variant="error" message={msg} open={open_snack} onClose={this.handleCloseSnack}/>
