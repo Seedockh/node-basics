@@ -3,13 +3,14 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import classnames from 'classnames';
 import { Card,CardHeader,CardMedia,CardContent,CardActions,
-         Collapse,Avatar,IconButton,Typography } from '@material-ui/core';
+         Collapse,IconButton,Typography, Chip, Paper } from '@material-ui/core';
 import red from '@material-ui/core/colors/red';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import ShareIcon from '@material-ui/icons/Share';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import './PublicProjects.css';
+import moment from 'moment';
 
 const styles = theme => ({
   card: {
@@ -51,30 +52,31 @@ class RecipeReviewCard extends React.Component {
     const { classes, projects } = this.props;
     return (
       <div className="publiclist">
+      {projects.length===0 && (
+        <Paper className="noproject">No projects yet.</Paper>
+      )}
       {projects.map( (value,index) => (
         <Card className={classes.card+" singlecard"} key={index}>
           <CardHeader
             avatar={
-              <Avatar aria-label="Recipe" className={classes.avatar}>
-                {localStorage.username.charAt(0)}
-              </Avatar>
+              <Chip label={value.User.nickname} className={classes.chip} />
             }
             action={
               <IconButton>
                 <MoreVertIcon />
               </IconButton>
             }
-            title="Shrimp and Chorizo Paella"
-            subheader="September 14, 2016"
+            title={value.name}
+            subheader={moment(value.updatedAt).format("MMMM D, YYYY")}
           />
           <CardMedia
             className={classes.media}
-            image="https://picsum.photos/400/300"
+            image={`https://picsum.photos/32${index}/24${index}`}
             title="Random Picture"
           />
           <CardContent>
             <Typography component="p">
-              At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga.
+              At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati.
             </Typography>
           </CardContent>
           <CardActions className={classes.actions} disableActionSpacing>
@@ -98,7 +100,7 @@ class RecipeReviewCard extends React.Component {
           <Collapse in={this.state.expanded} timeout="auto" unmountOnExit>
             <CardContent>
               <Typography paragraph>
-                “Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.”
+                Contact the author : <a href="/">{value.User.email}</a>
               </Typography>
             </CardContent>
           </Collapse>

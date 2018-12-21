@@ -5,9 +5,7 @@ import User from "../../models/user";
 const api = Router();
 
 api.get("/", async (req, res) => {
-  Project.findAll({include: [{
-                    model: User
-                  }] })
+  Project.findAll({include: [{ model: User }], order: [[ 'updatedAt','DESC']] })
   .then( response => {
     res.status(200).json({ msg: 'All projects  ', data: response });
   }).catch( err => {
