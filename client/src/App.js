@@ -21,24 +21,23 @@ class App extends Component {
     isConnected: localStorage.token ? true : false,
     open_signin: false,
     open_signup: false,
-    open_snack_login: false,
-    open_snack_logout: false,
-    open_snack_register: false,
+    open_snack: false,
+    variant: 'success',
+    msg: ''
   };
 
   handleLogin = async user => {
-    await this.setState({ user, isConnected: true, open_snack_login: true });
-    await this.getAllProjects();
+    await this.setState({ user, isConnected: true, open_snack: true, variant:'success', msg:'Successfully logged in !' });
     await this.getProjects();
   };
 
   handleRegister = user => {
-    this.setState({ user, open_snack_register: true });
+    this.setState({ user, open_snack: true, variant:'success', msg:'User successfully created.' });
   }
 
   handleLogout = () => {
     localStorage.clear();
-    this.setState({ isConnected: false, open_snack_logout:true, projects_loaded: false, allProjects_loaded: false, projects: [], allProjects: [] });
+    this.setState({ isConnected: false, open_snack: true, variant:'warning', msg:'Logged out', projects_loaded: false, allProjects_loaded: false, projects: [], allProjects: [] });
   }
 
   handleOpenSignIn = () => {
@@ -51,7 +50,7 @@ class App extends Component {
     this.setState({ open_signin: false, open_signup: false });
   }
   handleCloseSnack = () => {
-    this.setState({ open_snack_login: false, open_snack_logout: false, open_snack_register: false });
+    this.setState({ open_snack: false });
   }
 
   getProjects = async () => {
@@ -100,7 +99,7 @@ class App extends Component {
   render() {
 
     const { isConnected, open_signin, open_signup, projects, projects_loaded, allProjects, allProjects_loaded,
-            open_snack_login, open_snack_logout, open_snack_register } = this.state;
+            open_snack, variant, msg } = this.state;
     return (
       <Router>
         <>
@@ -133,22 +132,10 @@ class App extends Component {
             <Route exact path="/" component={() => <Home allProjects={allProjects} allProjects_loaded={allProjects_loaded} getAllProjects={this.getAllProjects} isConnected={isConnected}/>} />
             <Route path="/dashboard" component={() => <Dashboard isConnected={isConnected} getProjects={this.getProjects} changePassword={this.handleLogout} projects={projects} projects_loaded={projects_loaded}/>} />
           </Switch>
-            {open_snack_login && (
-              <Snackbar variant="success"
-                        message="Successfully logged in !"
-                        open={open_snack_login}
-                        onClose={this.handleCloseSnack}/>
-            )}
-            {open_snack_logout && (
-              <Snackbar variant="warning"
-                        message="Logged out"
-                        open={open_snack_logout}
-                        onClose={this.handleCloseSnack}/>
-            )}
-            {open_snack_register && (
-              <Snackbar variant="success"
-                        message="User successfully created."
-                        open={open_snack_register}
+            {open_snack && (
+              <Snackbar variant={variant}
+                        message={msg}
+                        open={open_snack}
                         onClose={this.handleCloseSnack}/>
             )}
             {open_signin && (
