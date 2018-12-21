@@ -45,7 +45,7 @@ export default class SignIn extends Component {
       // I'M CONNECTED
       this.props.connect(json.data.user);
       this.handleClose();
-      localStorage.token = json.meta.token;       // localStorage is on readonly mode : cannot destruct :(
+      localStorage.token = json.meta.token;       // localStorage is on readonly mode : cannot pass localStorage = json.user :(
       localStorage.uuid = json.data.user.uuid;
       localStorage.username = json.data.user.nickname;
       localStorage.usermail = json.data.user.email;

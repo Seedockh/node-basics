@@ -43,7 +43,6 @@ class Dashboard extends Component {
 
     const json = await response.json();
     if(json.error) {
-      console.log(json.error);
       return this.setState({ open_snack: true, variant:"error", msg: json.error});
     } else {
       localStorage.clear();

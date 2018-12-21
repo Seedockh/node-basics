@@ -87,7 +87,6 @@ class Projects extends React.Component {
 
       const json = await response.json();
       if(json.error) {
-        console.log(json.error);
         return this.setState({ open_snack: true, variant:"error", msg: json.error});
       } else {
         this.setState({ open_snack: true, variant:"success", msg: "Project deleted successfully." });

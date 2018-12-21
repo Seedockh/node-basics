@@ -33,7 +33,6 @@ api.post("/login", async (req, res) => {
       res.status(400).json({
         error: { message: err }
       });
-      console.log("Error : "+res.status(400).statusCode +' - '+res.status(400).statusMessage);
       return res.status(400);
     }
 

@@ -67,6 +67,16 @@ export default class EditProject extends Component {
           <DialogTitle id="form-dialog-title">Edit project</DialogTitle>
           <DialogContent>
             <TextField
+              disabled
+              margin="dense"
+              id="username"
+              label="User Name"
+              name="username"
+              value={localStorage.username}
+              type="text"
+              fullWidth
+            />
+            <TextField
               autoFocus
               required
               margin="dense"

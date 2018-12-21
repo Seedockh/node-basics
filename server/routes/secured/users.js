@@ -77,7 +77,6 @@ api.delete('/delete/:uuid', async (req,res)=> {
         .then( response => {
           res.status(200).json({msg: "User deleted successfully." }) })
         .catch( err => {
-          console.log(err);
           res.status(400).json({ error: err.original.detail })
         });
       }

@@ -31,7 +31,6 @@ api.post("/create", async (req,res) => {
 
     res.status(201).json({ data: { project } });
   } catch (err) {
-    console.log(err.message);
     res.json( {err:err.message} );
   }
 });
