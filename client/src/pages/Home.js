@@ -3,9 +3,8 @@ import "./Home.css";
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import PublicProject from './PublicProjects';
-import { Typography, Paper, Chip } from "@material-ui/core";
+import { Typography, Paper, Chip, Avatar } from "@material-ui/core";
 import Progress from "../components/Progress";
-import FaceIcon from '@material-ui/icons/Face';
 
 const styles = theme => ({
   root: {
@@ -16,15 +15,11 @@ const styles = theme => ({
   },
 });
 
-function handleDelete() {
-  alert('You clicked the delete icon.'); // eslint-disable-line no-alert
-}
-
 class Home extends Component {
   state = { reload_projects: this.props.isConnected && !this.props.allProjects_loaded ? this.props.getAllProjects() : false };
 
   render() {
-      const { allProjects_loaded, allProjects, allAuthors, isConnected, classes } = this.props;
+      const { allProjects_loaded, allAuthors, isConnected, classes } = this.props;
       return (
         <div className="container">
           <div className="sideMenu">
@@ -35,8 +30,8 @@ class Home extends Component {
                 {allAuthors.map( (value,index)=>(
                   <Chip
                    key={index}
+                   avatar={<Avatar><img src={`https://picsum.photos/32${index}/24${index}`} alt={"author"+index}/></Avatar>}
                    label={value}
-                   onDelete={handleDelete}
                    className={classes.chip}
                    color="primary"
                  />

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom";
+import { BrowserRouter as Router, Route, Link, Switch, Redirect } from "react-router-dom";
 import { AppBar, Toolbar, IconButton, Button,InputBase } from "@material-ui/core";
 import { Home as HomeIcon, Search as SearchIcon } from '@material-ui/icons';
 import { withStyles } from '@material-ui/core/styles';
@@ -82,7 +82,6 @@ class App extends Component {
     allAuthors: [],
     allProjects_loaded: false,
     isConnected: localStorage.token ? true : false,
-    search: '',
     open_signin: false,
     open_signup: false,
     open_snack: false,
@@ -162,20 +161,25 @@ class App extends Component {
     }
   }
 
-  enterPress = (ev) => {
-    if (ev.key === 'Enter') {
-      this.searchProject(this.state.search)
-      ev.preventDefault();
-    }
+  searchChange = evt => {
+    const { value } = evt.target;
+    if (value==='') this.getAllProjects();
+    else this.searchProject(value);
   };
 
-  handleChange = evt => {
-    const { name, value } = evt.target;
-    this.setState({ [name]: value });
-  };
+  searchProject = async (str) => {
+    const { token } = localStorage;
+    const response = await fetch("http://localhost:4242/api/projects/search/", {
+      headers: {
+        "Authorization": 'Bearer '+token,
+        "Content-Type": "application/json"
+      },
+      method: "POST",
+      body: JSON.stringify({ name: str }),
+    });
 
-  searchProject = (str) => {
-    console.log(str);
+    const json = await response.json();
+    this.setState({ allProjects: json.data })
   }
 
   render() {
@@ -209,8 +213,7 @@ class App extends Component {
                         name="search"
                         id="search"
                         spellCheck="false"
-                        onKeyPress={this.enterPress}
-                        onChange={this.handleChange}
+                        onChange={this.searchChange}
                         classes={{
                           root: classes.inputRoot,
                           input: classes.inputInput,

@@ -9,3 +9,11 @@
   margin-right: 2em;
   margin-top: 5em;
 }
+
+.noprojectfound {
+  margin-top: 5em !important;
+  font-family: "Helvetica", "Arial", sans-serif !important;
+  text-align: center;
+  padding: 2em;
+  margin-top: 0;
+}

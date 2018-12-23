@@ -53,7 +53,7 @@ class RecipeReviewCard extends React.Component {
     return (
       <div className="publiclist">
       {projects.length===0 && (
-        <Paper className="noproject">No projects yet.</Paper>
+        <Paper className="noprojectfound">No projects found.</Paper>
       )}
       {projects.map( (value,index) => (
         <Card className={classes.card+" singlecard"} key={index}>

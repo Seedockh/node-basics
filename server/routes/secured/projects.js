@@ -46,8 +46,9 @@ api.delete('/delete/:id', async (req,res)=> {
   res.status(200).json({msg: "Project deleted successfully."});
 })
 
-api.get('/search/:str', async (req,res,next)=> {
-  const found = await Project.findAll({where:{name}})
+api.post('/search', async (req,res,next)=> {
+  const found = await Project.findAll({where:{name: { $like: '%' + req.body.name + '%'}},include: [{ model: User }], order: [[ 'updatedAt','DESC']] });
+  res.status(200).json({data:found});
 })
 
 
