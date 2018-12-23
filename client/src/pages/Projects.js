@@ -32,7 +32,7 @@ class Projects extends React.Component {
     msg: "",
     variant: "error",
     open_snack: true,
-    reload_project: this.props.projects_loaded ? false : setTimeout(()=>{this.props.getProjects()},2000),  //visible loading
+    reload_project: this.props.projects_loaded ? false : setTimeout(()=>{this.props.getProjects()},1000),  //visible loading
   };
 
   handleToggle = value => () => {

@@ -1,13 +1,14 @@
 
 .home {
   padding: 4em;
-  margin: 9em auto auto auto;
+  margin: 6em auto 3em auto;
   width: 70vw;
 
 }
 
 .dashboard {
-
+  margin-bottom: 3em;
+  width: 100%;
 }
 
 .categories {
@@ -17,12 +18,13 @@
 .title {
   font-family: "system-ui", "Helvetica", "Arial", sans-serif !important;
     font-weight: 450 !important;
-  position: absolute !important;
-  top: 8.7em !important;
-  left: 12.5%;
+  position: relative !important;
+  top: -5.5em !important;
+  left: -5.3em !important;
+  right: 0 !important;
   background: #3f51b5;
   color: white !important;
-  width: 75vw;
+  width: 109.7%;
   padding: 0.3em 0 !important;
   text-align: center;
   border-radius: 4px 4px 0 0;

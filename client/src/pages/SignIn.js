@@ -29,26 +29,29 @@ export default class SignIn extends Component {
     if (this.state.nickname==='' || this.state.password==='') {
       return this.setState({ open_snack:true, msg: "Each field is required."})
     }
+    try {
+      const response = await fetch("http://localhost:4242/api/auth/login", {
+        headers: {
+          "Content-Type": "application/json"
+        },
+        method: "POST",
+        body: JSON.stringify(this.state)
+      });
 
-    const response = await fetch("http://localhost:4242/api/auth/login", {
-      headers: {
-        "Content-Type": "application/json"
-      },
-      method: "POST",
-      body: JSON.stringify(this.state)
-    });
-
-    const json = await response.json();
-    if (json.error) {
-      return this.setState({ open_snack: true, msg: json.error.message });
-    } else {
-      // I'M CONNECTED
-      this.props.connect(json.data.user);
-      this.handleClose();
-      localStorage.token = json.meta.token;       // localStorage is on readonly mode : cannot pass localStorage = json.user :(
-      localStorage.uuid = json.data.user.uuid;
-      localStorage.username = json.data.user.nickname;
-      localStorage.usermail = json.data.user.email;
+      const json = await response.json();
+      if (json.error) {
+        return this.setState({ open_snack: true, msg: json.error.message });
+      } else {
+        // I'M CONNECTED
+        this.props.connect(json.data.user);
+        this.handleClose();
+        localStorage.token = json.meta.token;       // localStorage is on readonly mode : cannot pass localStorage = json.user :(
+        localStorage.uuid = json.data.user.uuid;
+        localStorage.username = json.data.user.nickname;
+        localStorage.usermail = json.data.user.email;
+      }  
+    } catch (err) {
+      console.log(err);
     }
   };
 

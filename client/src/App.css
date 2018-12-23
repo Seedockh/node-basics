@@ -1,8 +1,24 @@
 .App-menu {
   text-decoration: none;
   color: inherit;
+  z-index: 1 !important;
 }
 
 .barbuttons {
   margin-left: auto;
+}
+
+.searchbar {
+  position: absolute !important;
+  top: 1em;
+  left: 20vw;
+  z-index: 5 !important;
+}
+
+@media only screen and (max-width: 599px) {
+  .searchbar {
+    position: relative !important;
+    left: -15em;
+    max-width: 200px !important;
+  }
 }

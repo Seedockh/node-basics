@@ -46,5 +46,9 @@ api.delete('/delete/:id', async (req,res)=> {
   res.status(200).json({msg: "Project deleted successfully."});
 })
 
+api.get('/search/:str', async (req,res,next)=> {
+  const found = await Project.findAll({where:{name}})
+})
+
 
 export default api;
