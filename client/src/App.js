@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { BrowserRouter as Router, Route, Link, Switch, Redirect } from "react-router-dom";
+import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom";
 import { AppBar, Toolbar, IconButton, Button,InputBase } from "@material-ui/core";
 import { Home as HomeIcon, Search as SearchIcon } from '@material-ui/icons';
 import { withStyles } from '@material-ui/core/styles';
@@ -154,7 +154,7 @@ class App extends Component {
       if (json.error) {
         return this.setState({ open_snack: true, variant:"error", msg: json.error });
       } else {
-        const authors=[];
+        const authors= [];
         json.data.map( project => authors.indexOf(project.User.nickname)===-1 ? authors.push(project.User.nickname) : false);
         this.setState({ allProjects_loaded: true, allProjects: json.data, allAuthors: authors });
       }
@@ -203,7 +203,7 @@ class App extends Component {
                   </>
                   )}
                   {isConnected && (
-                  <>
+                  <div className="loggedbar">
                     <div className={classes.search+" searchbar"}>
                       <div className={classes.searchIcon}>
                         <SearchIcon />
@@ -220,11 +220,16 @@ class App extends Component {
                         }}
                       />
                     </div>
+                    <div className="resultfound">
+                      {`${allProjects.length} project(s) found.`}
+                    </div>
+                    <div>
                     <Link to="/dashboard" className="App-menu">
                       <Button color="inherit">Dashboard</Button>
                     </Link>
                     <Button color="inherit" onClick={this.handleLogout}>Logout</Button>
-                  </>
+                    </div>
+                    </div>
                   )}
                   </div>
                 </Toolbar>

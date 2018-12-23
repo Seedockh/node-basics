@@ -89,8 +89,8 @@ class Projects extends React.Component {
       if(json.error) {
         return this.setState({ open_snack: true, variant:"error", msg: json.error});
       } else {
-        this.setState({ open_snack: true, variant:"success", msg: "Project deleted successfully." });
-        setTimeout( () => this.props.getProjects(),500)
+        this.setState({ open_snack: true, variant:"success", msg: "Project deleted successfully." })
+        setTimeout(()=>this.props.getProjects(),500);
       }
     });
   }
@@ -161,7 +161,7 @@ class Projects extends React.Component {
             open={open_edit}
             onClose={this.handleClose}
           >
-            <EditProject open={open_edit} close={this.handleClose} getProjects={getProjects} project={project}/>
+            <EditProject open={open_edit} close={this.handleClose} getProjects={getProjects} project={project} />
           </Dialog>
         </div>
       )}

@@ -9,10 +9,19 @@
 }
 
 .searchbar {
-  position: absolute !important;
-  top: 1em;
-  left: 20vw;
   z-index: 5 !important;
+}
+
+.resultfound {
+  margin-right: 10em;
+}
+
+.loggedbar {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  width: 80vw;
 }
 
 @media only screen and (max-width: 599px) {

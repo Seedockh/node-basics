@@ -55,7 +55,7 @@ class Home extends Component {
                 {isConnected && (
                   <>
                   {allProjects_loaded && (
-                    <PublicProject projects={this.props.allProjects}/>
+                    <PublicProject projects={this.props.allProjects} getAllProjects={this.props.getAllProjects}/>
                   )}
                   {!allProjects_loaded && (
                     <div className="progressbarhome">

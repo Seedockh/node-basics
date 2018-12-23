@@ -6,6 +6,9 @@
   .content {
     margin-top: 1em !important;
   }
+  .chiplist {
+    margin: 0 1em 2em 1em;
+  }
 }
 
 .container {
