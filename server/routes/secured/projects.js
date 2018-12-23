@@ -17,9 +17,9 @@ api.post("/", async (req, res) => {
   Project.findAll({
     where: {UserUuid:req.body.uuid} })
   .then( response => {
-    res.status(200).json({ msg: 'All your projects ', data: response });
+    res.status(200).json({ msg: 'All your projects', data: response });
   }).catch( err => {
-    res.status(400).json({ error: "A problem occured when loading your projects."})
+    res.status(400).json({ error: "A problem occured when loading your projects. "})
   });
 });
 
