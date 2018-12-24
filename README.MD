@@ -58,7 +58,44 @@ To end the script and so the application, just press `CTRL+C`.
 * [PostGreSQL](https://www.postgresql.org/download/)
 * [Material-ui](https://material-ui.com/)
 
+
+
+
 # API
+
+## Models
+
+### Users
+```
+{
+  uuid: { primaryKey: true },
+  nickname: { type: STRING, allowNull: false, unique: true },
+  email: { type: STRING, allowNull: false, unique: true },
+  password: { type: STRING, allowNull: false },
+},
+```
+
+### Projects
+```
+{
+  id: { primaryKey: true },
+  name: { type: STRING, allowNull: false },
+},
+```
+
+### Associations
+
+What we need to get one `User` of one `Project`:
+```
+Project.belongsTo(User, {
+  onDelete: 'CASCADE'
+});
+```
+
+What we need to get each `Project` associated to one `User` :
+```
+User.hasMany(Project);
+```
 
 ## Routes
 
@@ -80,7 +117,25 @@ All routes can be accessed through `/api/` url.
 | DELETE | /projects/delete/:id | Deletes one project | Yes |
 
 
+
 # CLIENT
+
+## Project tree
+
+```
+App
+ |__ SignUp
+ |__ SignIn
+ |__ Home
+ |     |_______ PublicProjects       
+ |
+ |__ Dashboard
+       |_______ Panels
+                  |___ Projects
+                          |_____ CreateProject
+                          |_____ EditProject
+                  |___ EditUser
+```
 
 ## Renders
 
