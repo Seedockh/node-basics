@@ -72,7 +72,7 @@ To end the script and so the application, just press `CTRL+C`.
   nickname: { type: STRING, allowNull: false, unique: true },
   email: { type: STRING, allowNull: false, unique: true },
   password: { type: STRING, allowNull: false },
-},
+}
 ```
 
 ### Projects
@@ -80,7 +80,7 @@ To end the script and so the application, just press `CTRL+C`.
 {
   id: { primaryKey: true },
   name: { type: STRING, allowNull: false },
-},
+}
 ```
 
 ### Associations
@@ -105,13 +105,13 @@ All routes can be accessed through `/api/` url.
 | -----------|--------------|-------------------------------------|-----------|
 | POST | /auth/register | Creates a new user and signed token | No |
 | POST | /auth/login | Authenticates a user and creates a new signed token | No |
-| GET  | /projects/ | Gets all projects with their author | Yes |
-| POST | /projects/search | Searches for projects by names | Yes |
-| POST | /projects/ | Gets all projects of one user | Yes |
 | POST | /users/:uuid | Gets one user by uuid | Yes |
 | PUT | /users/update/:uuid | Updates [nickname,email] of one user | Yes |
 | PUT | /users/updatepassword/:uuid | Updates password of one user | Yes |
 | DELETE | /users/delete/:uuid | Deletes one user | Yes |
+| GET  | /projects/ | Gets all projects with their author | Yes |
+| POST | /projects/ | Gets all projects of one user | Yes |
+| POST | /projects/search | Searches for projects by names | Yes |
 | POST | /projects/create | Creates a new project| Yes |
 | PUT | /projects/update/:id | Updates one project | Yes |
 | DELETE | /projects/delete/:id | Deletes one project | Yes |
