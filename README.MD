@@ -1,87 +1,66 @@
-# Project Title
+# NODE-BASICS
 
-One Paragraph of project description goes here
+Local project to learn how to use React with an Express API and using PostGreSQL database.
 
 ## Getting Started
 
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
+The `start.sh` script allows you to install dependencies and to start the server, on bot `server` and `client` side.
 
 ### Prerequisites
 
-What things you need to install the software and how to install them
+First, have a look at the config section in the `start.sh` file :
 
 ```
-Give examples
+#########################################
+###           SCRIPT CONFIG           ###
+#########################################
+#   0 = false       #     1 = true      #
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
+USE_PORTS_CLEANER=1   # Kills current node processes at PORT_TO_USE_WITH_EXPRESS and PORT_TO_USE_WITH_REACT before starting servers
+USE_NPM_INSTALL=1     # Runs npm install in EXPRESS_DIRECTORY_NAME and REACT_DIRECTORY_NAME
+USE_SERVERS_STARTER=1 # Starts servers in EXPRESS_DIRECTORY_NAME and REACT_DIRECTORY_NAME
+UNIX_SYSTEM=1
+WINDOWS_SYSTEM=0
+PORT_TO_USE_WITH_EXPRESS=4242   # Only required on Windows
+PORT_TO_USE_WITH_REACT=3000     #           "
+EXPRESS_DIRECTORY_NAME='server'
+REACT_DIRECTORY_NAME='client'
+COLOR_PRIMARY=2
+COLOR_SECONDARY=6
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
+#~~            END CONFIG             ~~#
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 ```
 
 ### Installing
 
-A step by step series of examples that tell you how to get a development env running
+Now that you've chosen your configuration, save the script and open a terminal in our repository.
 
-Say what the step will be
-
-```
-Give the example
-```
-
-And repeat
+You can now type the following :
 
 ```
-until finished
+./start.sh
 ```
 
-End with an example of getting some data out of the system or using it for a little demo
-
-## Running the tests
-
-Explain how to run the automated tests for this system
-
-### Break down into end to end tests
-
-Explain what these tests test and why
+If you're running on Debian, bash might not be the default shell interpreter. You should run :
 
 ```
-Give an example
+/bin/bash ./start.sh
 ```
 
-### And coding style tests
+To end the script and so the application, just press `CTRL+C`.
 
-Explain what these tests test and why
-
-```
-Give an example
-```
-
-## Deployment
-
-Add additional notes about how to deploy this on a live system
 
 ## Built With
 
-* [Dropwizard](http://www.dropwizard.io/1.0.2/docs/) - The web framework used
-* [Maven](https://maven.apache.org/) - Dependency Management
-* [ROME](https://rometools.github.io/rome/) - Used to generate RSS Feeds
-
-## Contributing
-
-Please read [CONTRIBUTING.md](https://gist.github.com/PurpleBooth/b24679402957c63ec426) for details on our code of conduct, and the process for submitting pull requests to us.
-
-## Versioning
-
-We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/your/project/tags).
+* [Express](https://expressjs.com/en/4x/api.html)
+* [React](https://reactjs.org/docs/react-api.html) - app built with `create-react-app`
+* [PostGreSQL](https://www.postgresql.org/download/)
 
 ## Authors
 
-* **Billie Thompson** - *Initial work* - [PurpleBooth](https://github.com/PurpleBooth)
-
-See also the list of [contributors](https://github.com/your/project/contributors) who participated in this project.
+* **Pierre Hérissé** - *Initial work* - [Seedockh](https://gist.github.com/Seedockh)
 
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
-
-## Acknowledgments
-
-* Hat tip to anyone whose code was used
-* Inspiration
-* etc
