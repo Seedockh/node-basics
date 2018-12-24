@@ -4,7 +4,7 @@ Local project to learn how to use React with an Express API and using PostGreSQL
 
 ## Getting Started
 
-The `start.sh` script allows you to install dependencies and to start the server, on bot `server` and `client` side.
+The `start.sh` script allows you to install dependencies and to start the server, on both `server` and `client` side.
 
 ### Prerequisites
 
@@ -57,9 +57,73 @@ To end the script and so the application, just press `CTRL+C`.
 * [React](https://reactjs.org/docs/react-api.html) - app built with `create-react-app`
 * [PostGreSQL](https://www.postgresql.org/download/)
 
+# APPLICATION
+
+## Routes
+
+All routes can be accessed through `/api/` url.
+
+| Method     | Route        | Description                         | AuthToken |
+| -----------|--------------|-------------------------------------|-----------|
+| POST | /auth/register | Creates a new user and signed token | No |
+| POST | /auth/login | Authenticates a user and creates a new signed token | No |
+| GET  | /projects/ | Gets all projects with their author | Yes |
+| POST | /projects/search | Searches for projects by names | Yes |
+| POST | /projects/ | Gets all projects of one user | Yes |
+| POST | /users/:uuid | Gets one user by uuid | Yes |
+| PUT | /users/update/:uuid | Updates [nickname,email] of one user | Yes |
+| PUT | /users/updatepassword/:uuid | Updates password of one user | Yes |
+| DELETE | /users/delete/:uuid | Deletes one user | Yes |
+| POST | /projects/create | Creates a new project| Yes |
+| PUT | /projects/update/:id | Updates one project | Yes |
+| DELETE | /projects/delete/:id | Deletes one project | Yes |
+
+## Renders
+
+### Auth
+#### SignUp
+![SignUp](/mockups/SignUp.png)
+
+#### SignIn
+![SignIn](/mockups/SignIn.png)
+
+### Home
+#### getAllProjects
+![getAllProjects](/mockups/getAllProjects.png)
+
+#### search
+![search](/mockups/Search.png)
+
+### Dashboard
+#### getProjects
+![getProjects](/mockups/getProjects.png)
+
+
+### Users
+#### update
+![update](/mockups/UpdateUser.png)
+
+#### updatePassword
+![updatePassword](/mockups/UpdatePasswordUser.png)
+
+#### delete
+![delete](/mockups/DeleteUser.png)
+
+
+### Projects
+#### create
+![create](/mockups/CreateProject.png)
+
+#### update
+![update](/mockups/UpdateProject.png)
+
+#### delete
+![delete](/mockups/DeleteProject.png)
+
+
 ## Authors
 
-* **Pierre Hérissé** - *Initial work* - [Seedockh](https://gist.github.com/Seedockh)
+* **Pierre Hérissé** - *Initial work* - [Seedockh](https://github.com/Seedockh)
 
 ## License
 
