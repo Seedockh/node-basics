@@ -56,8 +56,9 @@ To end the script and so the application, just press `CTRL+C`.
 * [Express](https://expressjs.com/en/4x/api.html)
 * [React](https://reactjs.org/docs/react-api.html) - app built with `create-react-app`
 * [PostGreSQL](https://www.postgresql.org/download/)
+* [Material-ui](https://material-ui.com/)
 
-# APPLICATION
+# API
 
 ## Routes
 
@@ -77,6 +78,9 @@ All routes can be accessed through `/api/` url.
 | POST | /projects/create | Creates a new project| Yes |
 | PUT | /projects/update/:id | Updates one project | Yes |
 | DELETE | /projects/delete/:id | Deletes one project | Yes |
+
+
+# CLIENT
 
 ## Renders
 
